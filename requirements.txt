@@ -1,0 +1,7 @@
+streamlit
+sqlalchemy
+pandas
+requests
+reportlab
+python-dotenv
+

@@ -1,0 +1,2002 @@
+{
+  "1": {
+    "id": 1,
+    "name": "npc_dota_hero_antimage",
+    "en_name": "Anti-Mage",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/antimage.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "2": {
+    "id": 2,
+    "name": "npc_dota_hero_axe",
+    "en_name": "Axe",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/axe.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Durable",
+      "Disabler",
+      "Carry"
+    ]
+  },
+  "3": {
+    "id": 3,
+    "name": "npc_dota_hero_bane",
+    "en_name": "Bane",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bane.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/bane.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker",
+      "Durable"
+    ]
+  },
+  "4": {
+    "id": 4,
+    "name": "npc_dota_hero_bloodseeker",
+    "en_name": "Bloodseeker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bloodseeker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/bloodseeker.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Nuker",
+      "Initiator"
+    ]
+  },
+  "5": {
+    "id": 5,
+    "name": "npc_dota_hero_crystal_maiden",
+    "en_name": "Crystal Maiden",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/crystal_maiden.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/crystal_maiden.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "6": {
+    "id": 6,
+    "name": "npc_dota_hero_drow_ranger",
+    "en_name": "Drow Ranger",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/drow_ranger.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/drow_ranger.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Pusher"
+    ]
+  },
+  "7": {
+    "id": 7,
+    "name": "npc_dota_hero_earthshaker",
+    "en_name": "Earthshaker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earthshaker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/earthshaker.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Initiator",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "8": {
+    "id": 8,
+    "name": "npc_dota_hero_juggernaut",
+    "en_name": "Juggernaut",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/juggernaut.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/juggernaut.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Escape"
+    ]
+  },
+  "9": {
+    "id": 9,
+    "name": "npc_dota_hero_mirana",
+    "en_name": "Mirana",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/mirana.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/mirana.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Support",
+      "Escape",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "10": {
+    "id": 10,
+    "name": "npc_dota_hero_morphling",
+    "en_name": "Morphling",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/morphling.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/morphling.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Durable",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "11": {
+    "id": 11,
+    "name": "npc_dota_hero_nevermore",
+    "en_name": "Shadow Fiend",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/nevermore.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/nevermore.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Nuker"
+    ]
+  },
+  "12": {
+    "id": 12,
+    "name": "npc_dota_hero_phantom_lancer",
+    "en_name": "Phantom Lancer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phantom_lancer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/phantom_lancer.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Pusher",
+      "Nuker"
+    ]
+  },
+  "13": {
+    "id": 13,
+    "name": "npc_dota_hero_puck",
+    "en_name": "Puck",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/puck.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/puck.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "14": {
+    "id": 14,
+    "name": "npc_dota_hero_pudge",
+    "en_name": "Pudge",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pudge.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/pudge.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Disabler",
+      "Initiator",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "15": {
+    "id": 15,
+    "name": "npc_dota_hero_razor",
+    "en_name": "Razor",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/razor.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/razor.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Nuker",
+      "Pusher"
+    ]
+  },
+  "16": {
+    "id": 16,
+    "name": "npc_dota_hero_sand_king",
+    "en_name": "Sand King",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sand_king.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/sand_king.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Support",
+      "Nuker",
+      "Escape"
+    ]
+  },
+  "17": {
+    "id": 17,
+    "name": "npc_dota_hero_storm_spirit",
+    "en_name": "Storm Spirit",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/storm_spirit.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/storm_spirit.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker",
+      "Initiator",
+      "Disabler"
+    ]
+  },
+  "18": {
+    "id": 18,
+    "name": "npc_dota_hero_sven",
+    "en_name": "Sven",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/sven.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Initiator",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "19": {
+    "id": 19,
+    "name": "npc_dota_hero_tiny",
+    "en_name": "Tiny",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tiny.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/tiny.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Pusher",
+      "Initiator",
+      "Durable",
+      "Disabler"
+    ]
+  },
+  "20": {
+    "id": 20,
+    "name": "npc_dota_hero_vengefulspirit",
+    "en_name": "Vengeful Spirit",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/vengefulspirit.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/vengefulspirit.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Support",
+      "Initiator",
+      "Disabler",
+      "Nuker",
+      "Escape"
+    ]
+  },
+  "21": {
+    "id": 21,
+    "name": "npc_dota_hero_windrunner",
+    "en_name": "Windranger",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/windrunner.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/windrunner.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Support",
+      "Disabler",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "22": {
+    "id": 22,
+    "name": "npc_dota_hero_zuus",
+    "en_name": "Zeus",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/zuus.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/zuus.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Nuker",
+      "Carry"
+    ]
+  },
+  "23": {
+    "id": 23,
+    "name": "npc_dota_hero_kunkka",
+    "en_name": "Kunkka",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/kunkka.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/kunkka.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Support",
+      "Disabler",
+      "Initiator",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "25": {
+    "id": 25,
+    "name": "npc_dota_hero_lina",
+    "en_name": "Lina",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lina.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/lina.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Carry",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "26": {
+    "id": 26,
+    "name": "npc_dota_hero_lion",
+    "en_name": "Lion",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lion.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/lion.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker",
+      "Initiator"
+    ]
+  },
+  "27": {
+    "id": 27,
+    "name": "npc_dota_hero_shadow_shaman",
+    "en_name": "Shadow Shaman",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shadow_shaman.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/shadow_shaman.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Pusher",
+      "Disabler",
+      "Nuker",
+      "Initiator"
+    ]
+  },
+  "28": {
+    "id": 28,
+    "name": "npc_dota_hero_slardar",
+    "en_name": "Slardar",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/slardar.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/slardar.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Initiator",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "29": {
+    "id": 29,
+    "name": "npc_dota_hero_tidehunter",
+    "en_name": "Tidehunter",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tidehunter.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/tidehunter.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Durable",
+      "Disabler",
+      "Nuker",
+      "Carry"
+    ]
+  },
+  "30": {
+    "id": 30,
+    "name": "npc_dota_hero_witch_doctor",
+    "en_name": "Witch Doctor",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/witch_doctor.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/witch_doctor.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "31": {
+    "id": 31,
+    "name": "npc_dota_hero_lich",
+    "en_name": "Lich",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lich.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/lich.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker"
+    ]
+  },
+  "32": {
+    "id": 32,
+    "name": "npc_dota_hero_riki",
+    "en_name": "Riki",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/riki.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/riki.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "33": {
+    "id": 33,
+    "name": "npc_dota_hero_enigma",
+    "en_name": "Enigma",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/enigma.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/enigma.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Disabler",
+      "Initiator",
+      "Pusher"
+    ]
+  },
+  "34": {
+    "id": 34,
+    "name": "npc_dota_hero_tinker",
+    "en_name": "Tinker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tinker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/tinker.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Pusher"
+    ]
+  },
+  "35": {
+    "id": 35,
+    "name": "npc_dota_hero_sniper",
+    "en_name": "Sniper",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/sniper.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/sniper.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Nuker"
+    ]
+  },
+  "36": {
+    "id": 36,
+    "name": "npc_dota_hero_necrolyte",
+    "en_name": "Necrophos",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/necrolyte.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/necrolyte.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Durable",
+      "Disabler"
+    ]
+  },
+  "37": {
+    "id": 37,
+    "name": "npc_dota_hero_warlock",
+    "en_name": "Warlock",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/warlock.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/warlock.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Initiator",
+      "Disabler"
+    ]
+  },
+  "38": {
+    "id": 38,
+    "name": "npc_dota_hero_beastmaster",
+    "en_name": "Beastmaster",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/beastmaster.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/beastmaster.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "39": {
+    "id": 39,
+    "name": "npc_dota_hero_queenofpain",
+    "en_name": "Queen of Pain",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/queenofpain.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/queenofpain.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Escape"
+    ]
+  },
+  "40": {
+    "id": 40,
+    "name": "npc_dota_hero_venomancer",
+    "en_name": "Venomancer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/venomancer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/venomancer.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Initiator",
+      "Pusher",
+      "Disabler"
+    ]
+  },
+  "41": {
+    "id": 41,
+    "name": "npc_dota_hero_faceless_void",
+    "en_name": "Faceless Void",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/faceless_void.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/faceless_void.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Initiator",
+      "Disabler",
+      "Escape",
+      "Durable"
+    ]
+  },
+  "42": {
+    "id": 42,
+    "name": "npc_dota_hero_skeleton_king",
+    "en_name": "Wraith King",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/skeleton_king.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/skeleton_king.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Support",
+      "Durable",
+      "Disabler",
+      "Initiator"
+    ]
+  },
+  "43": {
+    "id": 43,
+    "name": "npc_dota_hero_death_prophet",
+    "en_name": "Death Prophet",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/death_prophet.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/death_prophet.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "44": {
+    "id": 44,
+    "name": "npc_dota_hero_phantom_assassin",
+    "en_name": "Phantom Assassin",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phantom_assassin.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/phantom_assassin.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape"
+    ]
+  },
+  "45": {
+    "id": 45,
+    "name": "npc_dota_hero_pugna",
+    "en_name": "Pugna",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pugna.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/pugna.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Nuker",
+      "Pusher"
+    ]
+  },
+  "46": {
+    "id": 46,
+    "name": "npc_dota_hero_templar_assassin",
+    "en_name": "Templar Assassin",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/templar_assassin.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/templar_assassin.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape"
+    ]
+  },
+  "47": {
+    "id": 47,
+    "name": "npc_dota_hero_viper",
+    "en_name": "Viper",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/viper.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/viper.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Initiator",
+      "Disabler"
+    ]
+  },
+  "48": {
+    "id": 48,
+    "name": "npc_dota_hero_luna",
+    "en_name": "Luna",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/luna.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/luna.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Pusher"
+    ]
+  },
+  "49": {
+    "id": 49,
+    "name": "npc_dota_hero_dragon_knight",
+    "en_name": "Dragon Knight",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dragon_knight.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/dragon_knight.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Durable",
+      "Disabler",
+      "Initiator",
+      "Nuker"
+    ]
+  },
+  "50": {
+    "id": 50,
+    "name": "npc_dota_hero_dazzle",
+    "en_name": "Dazzle",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dazzle.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/dazzle.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "51": {
+    "id": 51,
+    "name": "npc_dota_hero_rattletrap",
+    "en_name": "Clockwerk",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/rattletrap.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/rattletrap.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "52": {
+    "id": 52,
+    "name": "npc_dota_hero_leshrac",
+    "en_name": "Leshrac",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/leshrac.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/leshrac.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Support",
+      "Nuker",
+      "Pusher",
+      "Disabler"
+    ]
+  },
+  "53": {
+    "id": 53,
+    "name": "npc_dota_hero_furion",
+    "en_name": "Nature's Prophet",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/furion.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/furion.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "54": {
+    "id": 54,
+    "name": "npc_dota_hero_life_stealer",
+    "en_name": "Lifestealer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/life_stealer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/life_stealer.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "55": {
+    "id": 55,
+    "name": "npc_dota_hero_dark_seer",
+    "en_name": "Dark Seer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dark_seer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/dark_seer.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Initiator",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "56": {
+    "id": 56,
+    "name": "npc_dota_hero_clinkz",
+    "en_name": "Clinkz",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/clinkz.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/clinkz.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Pusher"
+    ]
+  },
+  "57": {
+    "id": 57,
+    "name": "npc_dota_hero_omniknight",
+    "en_name": "Omniknight",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/omniknight.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/omniknight.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "58": {
+    "id": 58,
+    "name": "npc_dota_hero_enchantress",
+    "en_name": "Enchantress",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/enchantress.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/enchantress.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Pusher",
+      "Durable",
+      "Disabler"
+    ]
+  },
+  "59": {
+    "id": 59,
+    "name": "npc_dota_hero_huskar",
+    "en_name": "Huskar",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/huskar.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/huskar.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Initiator"
+    ]
+  },
+  "60": {
+    "id": 60,
+    "name": "npc_dota_hero_night_stalker",
+    "en_name": "Night Stalker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/night_stalker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/night_stalker.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Initiator",
+      "Durable",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "61": {
+    "id": 61,
+    "name": "npc_dota_hero_broodmother",
+    "en_name": "Broodmother",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/broodmother.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/broodmother.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "62": {
+    "id": 62,
+    "name": "npc_dota_hero_bounty_hunter",
+    "en_name": "Bounty Hunter",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bounty_hunter.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/bounty_hunter.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "63": {
+    "id": 63,
+    "name": "npc_dota_hero_weaver",
+    "en_name": "Weaver",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/weaver.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/weaver.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape"
+    ]
+  },
+  "64": {
+    "id": 64,
+    "name": "npc_dota_hero_jakiro",
+    "en_name": "Jakiro",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/jakiro.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/jakiro.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Pusher",
+      "Disabler"
+    ]
+  },
+  "65": {
+    "id": 65,
+    "name": "npc_dota_hero_batrider",
+    "en_name": "Batrider",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/batrider.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/batrider.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "66": {
+    "id": 66,
+    "name": "npc_dota_hero_chen",
+    "en_name": "Chen",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/chen.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/chen.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Pusher"
+    ]
+  },
+  "67": {
+    "id": 67,
+    "name": "npc_dota_hero_spectre",
+    "en_name": "Spectre",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/spectre.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/spectre.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Escape"
+    ]
+  },
+  "68": {
+    "id": 68,
+    "name": "npc_dota_hero_ancient_apparition",
+    "en_name": "Ancient Apparition",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ancient_apparition.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/ancient_apparition.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "69": {
+    "id": 69,
+    "name": "npc_dota_hero_doom_bringer",
+    "en_name": "Doom",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/doom_bringer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/doom_bringer.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Initiator",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "70": {
+    "id": 70,
+    "name": "npc_dota_hero_ursa",
+    "en_name": "Ursa",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ursa.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/ursa.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Disabler"
+    ]
+  },
+  "71": {
+    "id": 71,
+    "name": "npc_dota_hero_spirit_breaker",
+    "en_name": "Spirit Breaker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/spirit_breaker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/spirit_breaker.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Initiator",
+      "Disabler",
+      "Durable",
+      "Escape"
+    ]
+  },
+  "72": {
+    "id": 72,
+    "name": "npc_dota_hero_gyrocopter",
+    "en_name": "Gyrocopter",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/gyrocopter.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/gyrocopter.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "73": {
+    "id": 73,
+    "name": "npc_dota_hero_alchemist",
+    "en_name": "Alchemist",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/alchemist.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/alchemist.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Support",
+      "Durable",
+      "Disabler",
+      "Initiator",
+      "Nuker"
+    ]
+  },
+  "74": {
+    "id": 74,
+    "name": "npc_dota_hero_invoker",
+    "en_name": "Invoker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/invoker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/invoker.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Disabler",
+      "Escape",
+      "Pusher"
+    ]
+  },
+  "75": {
+    "id": 75,
+    "name": "npc_dota_hero_silencer",
+    "en_name": "Silencer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/silencer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/silencer.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Support",
+      "Disabler",
+      "Initiator",
+      "Nuker"
+    ]
+  },
+  "76": {
+    "id": 76,
+    "name": "npc_dota_hero_obsidian_destroyer",
+    "en_name": "Outworld Devourer",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/obsidian_destroyer.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/obsidian_destroyer.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "77": {
+    "id": 77,
+    "name": "npc_dota_hero_lycan",
+    "en_name": "Lycan",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lycan.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/lycan.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Durable",
+      "Escape"
+    ]
+  },
+  "78": {
+    "id": 78,
+    "name": "npc_dota_hero_brewmaster",
+    "en_name": "Brewmaster",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/brewmaster.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/brewmaster.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Initiator",
+      "Durable",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "79": {
+    "id": 79,
+    "name": "npc_dota_hero_shadow_demon",
+    "en_name": "Shadow Demon",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shadow_demon.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/shadow_demon.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Initiator",
+      "Nuker"
+    ]
+  },
+  "80": {
+    "id": 80,
+    "name": "npc_dota_hero_lone_druid",
+    "en_name": "Lone Druid",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lone_druid.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/lone_druid.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Durable"
+    ]
+  },
+  "81": {
+    "id": 81,
+    "name": "npc_dota_hero_chaos_knight",
+    "en_name": "Chaos Knight",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/chaos_knight.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/chaos_knight.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Durable",
+      "Pusher",
+      "Initiator"
+    ]
+  },
+  "82": {
+    "id": 82,
+    "name": "npc_dota_hero_meepo",
+    "en_name": "Meepo",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/meepo.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/meepo.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker",
+      "Disabler",
+      "Initiator",
+      "Pusher"
+    ]
+  },
+  "83": {
+    "id": 83,
+    "name": "npc_dota_hero_treant",
+    "en_name": "Treant Protector",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/treant.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/treant.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Initiator",
+      "Durable",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "84": {
+    "id": 84,
+    "name": "npc_dota_hero_ogre_magi",
+    "en_name": "Ogre Magi",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ogre_magi.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/ogre_magi.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Durable",
+      "Initiator"
+    ]
+  },
+  "85": {
+    "id": 85,
+    "name": "npc_dota_hero_undying",
+    "en_name": "Undying",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/undying.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/undying.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Durable",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "86": {
+    "id": 86,
+    "name": "npc_dota_hero_rubick",
+    "en_name": "Rubick",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/rubick.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/rubick.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "87": {
+    "id": 87,
+    "name": "npc_dota_hero_disruptor",
+    "en_name": "Disruptor",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/disruptor.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/disruptor.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker",
+      "Initiator"
+    ]
+  },
+  "88": {
+    "id": 88,
+    "name": "npc_dota_hero_nyx_assassin",
+    "en_name": "Nyx Assassin",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/nyx_assassin.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/nyx_assassin.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Disabler",
+      "Nuker",
+      "Initiator",
+      "Escape"
+    ]
+  },
+  "89": {
+    "id": 89,
+    "name": "npc_dota_hero_naga_siren",
+    "en_name": "Naga Siren",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/naga_siren.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/naga_siren.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Support",
+      "Pusher",
+      "Disabler",
+      "Initiator",
+      "Escape"
+    ]
+  },
+  "90": {
+    "id": 90,
+    "name": "npc_dota_hero_keeper_of_the_light",
+    "en_name": "Keeper of the Light",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/keeper_of_the_light.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/keeper_of_the_light.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "91": {
+    "id": 91,
+    "name": "npc_dota_hero_wisp",
+    "en_name": "Io",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/wisp.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/wisp.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "92": {
+    "id": 92,
+    "name": "npc_dota_hero_visage",
+    "en_name": "Visage",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/visage.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/visage.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Durable",
+      "Disabler",
+      "Pusher"
+    ]
+  },
+  "93": {
+    "id": 93,
+    "name": "npc_dota_hero_slark",
+    "en_name": "Slark",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/slark.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/slark.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "94": {
+    "id": 94,
+    "name": "npc_dota_hero_medusa",
+    "en_name": "Medusa",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/medusa.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/medusa.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Durable"
+    ]
+  },
+  "95": {
+    "id": 95,
+    "name": "npc_dota_hero_troll_warlord",
+    "en_name": "Troll Warlord",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/troll_warlord.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/troll_warlord.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Disabler",
+      "Durable"
+    ]
+  },
+  "96": {
+    "id": 96,
+    "name": "npc_dota_hero_centaur",
+    "en_name": "Centaur Warrunner",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/centaur.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/centaur.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Durable",
+      "Initiator",
+      "Disabler",
+      "Nuker",
+      "Escape"
+    ]
+  },
+  "97": {
+    "id": 97,
+    "name": "npc_dota_hero_magnataur",
+    "en_name": "Magnus",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/magnataur.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/magnataur.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Nuker",
+      "Escape"
+    ]
+  },
+  "98": {
+    "id": 98,
+    "name": "npc_dota_hero_shredder",
+    "en_name": "Timbersaw",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/shredder.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/shredder.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Nuker",
+      "Durable",
+      "Escape"
+    ]
+  },
+  "99": {
+    "id": 99,
+    "name": "npc_dota_hero_bristleback",
+    "en_name": "Bristleback",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bristleback.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/bristleback.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Durable",
+      "Initiator",
+      "Nuker"
+    ]
+  },
+  "100": {
+    "id": 100,
+    "name": "npc_dota_hero_tusk",
+    "en_name": "Tusk",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tusk.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/tusk.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "101": {
+    "id": 101,
+    "name": "npc_dota_hero_skywrath_mage",
+    "en_name": "Skywrath Mage",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/skywrath_mage.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/skywrath_mage.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "102": {
+    "id": 102,
+    "name": "npc_dota_hero_abaddon",
+    "en_name": "Abaddon",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/abaddon.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/abaddon.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Carry",
+      "Durable"
+    ]
+  },
+  "103": {
+    "id": 103,
+    "name": "npc_dota_hero_elder_titan",
+    "en_name": "Elder Titan",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/elder_titan.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/elder_titan.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Disabler",
+      "Nuker",
+      "Durable"
+    ]
+  },
+  "104": {
+    "id": 104,
+    "name": "npc_dota_hero_legion_commander",
+    "en_name": "Legion Commander",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/legion_commander.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/legion_commander.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Disabler",
+      "Initiator",
+      "Durable",
+      "Nuker"
+    ]
+  },
+  "105": {
+    "id": 105,
+    "name": "npc_dota_hero_techies",
+    "en_name": "Techies",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/techies.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/techies.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "106": {
+    "id": 106,
+    "name": "npc_dota_hero_ember_spirit",
+    "en_name": "Ember Spirit",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ember_spirit.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/ember_spirit.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker",
+      "Disabler",
+      "Initiator"
+    ]
+  },
+  "107": {
+    "id": 107,
+    "name": "npc_dota_hero_earth_spirit",
+    "en_name": "Earth Spirit",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earth_spirit.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/earth_spirit.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Nuker",
+      "Escape",
+      "Disabler",
+      "Initiator",
+      "Durable"
+    ]
+  },
+  "108": {
+    "id": 108,
+    "name": "npc_dota_hero_abyssal_underlord",
+    "en_name": "Underlord",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/abyssal_underlord.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/abyssal_underlord.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Durable",
+      "Escape"
+    ]
+  },
+  "109": {
+    "id": 109,
+    "name": "npc_dota_hero_terrorblade",
+    "en_name": "Terrorblade",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/terrorblade.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/terrorblade.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Pusher",
+      "Nuker"
+    ]
+  },
+  "110": {
+    "id": 110,
+    "name": "npc_dota_hero_phoenix",
+    "en_name": "Phoenix",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/phoenix.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/phoenix.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Initiator",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "111": {
+    "id": 111,
+    "name": "npc_dota_hero_oracle",
+    "en_name": "Oracle",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/oracle.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/oracle.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "112": {
+    "id": 112,
+    "name": "npc_dota_hero_winter_wyvern",
+    "en_name": "Winter Wyvern",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/winter_wyvern.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/winter_wyvern.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker"
+    ]
+  },
+  "113": {
+    "id": 113,
+    "name": "npc_dota_hero_arc_warden",
+    "en_name": "Arc Warden",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/arc_warden.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/arc_warden.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker"
+    ]
+  },
+  "114": {
+    "id": 114,
+    "name": "npc_dota_hero_monkey_king",
+    "en_name": "Monkey King",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/monkey_king.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/monkey_king.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Disabler",
+      "Initiator"
+    ]
+  },
+  "119": {
+    "id": 119,
+    "name": "npc_dota_hero_dark_willow",
+    "en_name": "Dark Willow",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dark_willow.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/dark_willow.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "120": {
+    "id": 120,
+    "name": "npc_dota_hero_pangolier",
+    "en_name": "Pangolier",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pangolier.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/pangolier.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Disabler",
+      "Durable",
+      "Escape",
+      "Initiator"
+    ]
+  },
+  "121": {
+    "id": 121,
+    "name": "npc_dota_hero_grimstroke",
+    "en_name": "Grimstroke",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/grimstroke.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/grimstroke.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "123": {
+    "id": 123,
+    "name": "npc_dota_hero_hoodwink",
+    "en_name": "Hoodwink",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/hoodwink.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/hoodwink.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "126": {
+    "id": 126,
+    "name": "npc_dota_hero_void_spirit",
+    "en_name": "Void Spirit",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/void_spirit.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/void_spirit.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "128": {
+    "id": 128,
+    "name": "npc_dota_hero_snapfire",
+    "en_name": "Snapfire",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/snapfire.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/snapfire.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "129": {
+    "id": 129,
+    "name": "npc_dota_hero_mars",
+    "en_name": "Mars",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/mars.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/mars.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Initiator",
+      "Disabler",
+      "Durable"
+    ]
+  },
+  "131": {
+    "id": 131,
+    "name": "npc_dota_hero_ringmaster",
+    "en_name": "Ring Master",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/ringmaster.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/ringmaster.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Support",
+      "Nuker",
+      "Escape",
+      "Disabler"
+    ]
+  },
+  "135": {
+    "id": 135,
+    "name": "npc_dota_hero_dawnbreaker",
+    "en_name": "Dawnbreaker",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dawnbreaker.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/dawnbreaker.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Carry",
+      "Durable"
+    ]
+  },
+  "136": {
+    "id": 136,
+    "name": "npc_dota_hero_marci",
+    "en_name": "Marci",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/marci.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/marci.png?",
+    "primary_attr": "all",
+    "roles": [
+      "Support",
+      "Carry",
+      "Initiator",
+      "Disabler",
+      "Escape"
+    ]
+  },
+  "137": {
+    "id": 137,
+    "name": "npc_dota_hero_primal_beast",
+    "en_name": "Primal Beast",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/primal_beast.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/primal_beast.png?",
+    "primary_attr": "str",
+    "roles": [
+      "Initiator",
+      "Durable",
+      "Disabler"
+    ]
+  },
+  "138": {
+    "id": 138,
+    "name": "npc_dota_hero_muerta",
+    "en_name": "Muerta",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/muerta.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/muerta.png?",
+    "primary_attr": "int",
+    "roles": [
+      "Carry",
+      "Nuker",
+      "Disabler"
+    ]
+  },
+  "145": {
+    "id": 145,
+    "name": "npc_dota_hero_kez",
+    "en_name": "Kez",
+    "cn_name": "",
+    "slang": "",
+    "img_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/kez.png?",
+    "icon_url": "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/kez.png?",
+    "primary_attr": "agi",
+    "roles": [
+      "Carry",
+      "Escape",
+      "Disabler"
+    ]
+  }
+}

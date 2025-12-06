@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Float, BigInteger
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Float, BigInteger, UniqueConstraint
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -9,7 +9,7 @@ class Match(Base):
     __tablename__ = 'matches'
     
     id = Column(Integer, primary_key=True, index=True) # 数据库自增ID
-    match_id = Column(String, unique=True, index=True) # 游戏内 Match ID 或 手动生成的 UUID
+    match_id = Column(String, index=True) # 游戏内 Match ID (Not Unique anymore to allow dual perspective)
     
     # 基础标签 (需求 0)
     team_name = Column(String)      # 被分析队伍名 (主视角队伍)
@@ -27,6 +27,14 @@ class Match(Base):
     # 关联
     pick_bans = relationship("PickBan", back_populates="match", cascade="all, delete-orphan")
     players = relationship("PlayerPerformance", back_populates="match", cascade="all, delete-orphan")
+
+    # Ensure we don't have duplicate perspectives for the same match
+    # Unique constraint on match_id + team_name? Or match_id + is_radiant?
+    # team_name can change (if team renames). 
+    # Let's use match_id + team_name for now as "Perspective" key.
+    __table_args__ = (
+        UniqueConstraint('match_id', 'team_name', name='uix_match_team_perspective'),
+    )
 
 class PickBan(Base):
     """

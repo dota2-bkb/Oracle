@@ -3,116 +3,259 @@ from database import get_db
 from models import Match, Team, PlayerPerformance, Player, PickBan, League, PlayerAlias
 from services.hero_manager import HeroManager
 from services.patch_manager import PatchManager
-from views.components import render_bp_visual
+from views.components import render_bp_visual, generate_bp_image
 from sqlalchemy import desc, func, or_
 import pandas as pd
 from datetime import datetime, timedelta
 from io import BytesIO
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image as XLImage
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import Font, Alignment, PatternFill
 
-def generate_excel_export(matches, team_name, db, hm):
+def generate_detailed_excel_export(matches, team_name, db, hm):
     """
-    Generates an Excel file with analysis data.
+    Generates a detailed Excel file with 3 sheets as requested.
     """
-    output = BytesIO()
-    # Use 'xlsxwriter' or 'openpyxl'. Default is openpyxl for xlsx usually.
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        # --- Sheet 1: Overview ---
-        total = len(matches)
-        if total == 0:
-            return None
+    wb = Workbook()
+    
+    # Remove default sheet
+    default_sheet = wb.active
+    wb.remove(default_sheet)
+    
+    # Sort matches by time ascending (Old -> New) for the horizontal layout
+    # User said: "left to right sequentially increasing time"
+    matches_asc = sorted(matches, key=lambda m: m.match_time)
+    
+    # --- Helper to create Match Sheet ---
+    def create_match_sheet(sheet_name, filter_func):
+        ws = wb.create_sheet(sheet_name)
+        filtered_matches = [m for m in matches_asc if filter_func(m)]
+        
+        if not filtered_matches:
+            ws.cell(row=1, column=1, value="无符合条件的比赛数据")
+            return
+
+        # Set Row Headers
+        headers = ["比赛ID", "日期", "联赛", "天辉队伍", "夜魇队伍", "获胜方", "BP详情"]
+        for r, header in enumerate(headers, start=1):
+            cell = ws.cell(row=r, column=1, value=header)
+            cell.font = Font(bold=True)
+            cell.alignment = Alignment(horizontal='center', vertical='center')
             
+        # Set Row Heights
+        ws.row_dimensions[7].height = 200 # Approx height for BP image (adjust as needed)
+        ws.column_dimensions['A'].width = 15
+
+        for idx, m in enumerate(filtered_matches):
+            col_idx = idx + 2 # Start from Column B
+            col_letter = get_column_letter(col_idx)
+            ws.column_dimensions[col_letter].width = 50 # Width for BP image
+
+            # 1. Match ID
+            ws.cell(row=1, column=col_idx, value=str(m.match_id)).alignment = Alignment(horizontal='center')
+            
+            # 2. Date
+            ws.cell(row=2, column=col_idx, value=m.match_time.strftime('%Y-%m-%d')).alignment = Alignment(horizontal='center')
+            
+            # 3. League (Lazy Load name)
+            l_name = "未知联赛"
+            if m.league_id:
+                lg = db.query(League).filter(League.league_id == m.league_id).first()
+                if lg: l_name = lg.name
+            ws.cell(row=3, column=col_idx, value=l_name).alignment = Alignment(horizontal='center', wrap_text=True)
+
+            # 4. Radiant
+            r_name = m.team_name if m.is_radiant else m.opponent_name
+            ws.cell(row=4, column=col_idx, value=r_name).alignment = Alignment(horizontal='center')
+            
+            # 5. Dire
+            d_name = m.opponent_name if m.is_radiant else m.team_name
+            ws.cell(row=5, column=col_idx, value=d_name).alignment = Alignment(horizontal='center')
+            
+            # 6. Winner (With crown)
+            winner_name = m.team_name if m.win else m.opponent_name
+            ws.cell(row=6, column=col_idx, value=f"👑 {winner_name}").alignment = Alignment(horizontal='center')
+            
+            # 7. BP Image
+            # Determine params for generation
+            rad_name = m.team_name if m.is_radiant else m.opponent_name
+            dire_name = m.opponent_name if m.is_radiant else m.team_name
+            is_radiant_first = (m.is_radiant == m.first_pick)
+            
+            # Add winner mark to team name passed to image gen?
+            # User requirement: "BP图片中谁获胜了需要文字中添加信息"
+            # We modify the names passed to the image generator
+            rad_disp = f"👑 {rad_name}" if (m.is_radiant == m.win) else rad_name
+            dire_disp = f"👑 {dire_name}" if (m.is_radiant != m.win) else dire_name
+            
+            try:
+                img_pil = generate_bp_image(m.pick_bans, rad_disp, dire_disp, hm, first_pick_radiant=is_radiant_first)
+                if img_pil:
+                    # Scaling
+                    w_target = 300
+                    h_target = int(w_target * (img_pil.height / img_pil.width))
+                    
+                    img_resized = img_pil.resize((w_target, h_target))
+                    
+                    # Convert to Bytes for OpenPyXL
+                    img_byte_arr = BytesIO()
+                    img_resized.save(img_byte_arr, format='PNG')
+                    img_byte_arr.seek(0)
+                    
+                    xl_img = XLImage(img_byte_arr)
+                    
+                    # Anchor to cell
+                    ws.add_image(xl_img, f"{col_letter}7")
+                    
+                    ws.row_dimensions[7].height = h_target * 0.75
+            except Exception as e:
+                print(f"Error generating image for excel: {e}")
+                ws.cell(row=7, column=col_idx, value="图片生成失败")
+
+    # --- Sheet 1: 先选 (First Pick) ---
+    # m.first_pick is True if the analyzed team picked first.
+    create_match_sheet(f"{team_name}-先选", lambda m: m.first_pick)
+    
+    # --- Sheet 2: 后选 (Second Pick) ---
+    create_match_sheet(f"{team_name}-后选", lambda m: not m.first_pick)
+    
+    # --- Sheet 3: 统计信息 (Stats) ---
+    ws_stats = wb.create_sheet("统计数据")
+    
+    # 3.1 Win Rates
+    total = len(matches)
+    if total > 0:
         wins = sum(1 for m in matches if m.win)
+        
         rad_m = [m for m in matches if m.is_radiant]
+        rad_wins = sum(1 for m in rad_m if m.win)
+        
         dire_m = [m for m in matches if not m.is_radiant]
+        dire_wins = sum(1 for m in dire_m if m.win)
         
-        rad_wr = (sum(1 for m in rad_m if m.win) / len(rad_m)) if rad_m else 0
-        dire_wr = (sum(1 for m in dire_m if m.win) / len(dire_m)) if dire_m else 0
+        fp_m = [m for m in matches if m.first_pick]
+        fp_wins = sum(1 for m in fp_m if m.win)
         
-        overview_data = {
-            "指标 (Metric)": ["总场次 (Total)", "胜场 (Wins)", "胜率 (Win Rate)", "天辉场次 (Radiant)", "天辉胜率 (Rad WR)", "夜魇场次 (Dire)", "夜魇胜率 (Dire WR)"],
-            "数值 (Value)": [total, wins, f"{wins/total:.1%}", len(rad_m), f"{rad_wr:.1%}", len(dire_m), f"{dire_wr:.1%}"]
-        }
-        pd.DataFrame(overview_data).to_excel(writer, sheet_name="队伍概况", index=False)
+        sp_m = [m for m in matches if not m.first_pick]
+        sp_wins = sum(1 for m in sp_m if m.win)
         
-        # --- Sheet 2: Hero Picks & Bans ---
-        pick_counts = {}
-        ban_counts = {}
+        stats_data = [
+            ["统计项", "场次", "胜场", "胜率"],
+            ["总计", total, wins, f"{wins/total:.1%}"],
+            ["天辉", len(rad_m), rad_wins, f"{rad_wins/len(rad_m):.1%}" if rad_m else "0%"],
+            ["夜魇", len(dire_m), dire_wins, f"{dire_wins/len(dire_m):.1%}" if dire_m else "0%"],
+            ["先选", len(fp_m), fp_wins, f"{fp_wins/len(fp_m):.1%}" if fp_m else "0%"],
+            ["后选", len(sp_m), sp_wins, f"{sp_wins/len(sp_m):.1%}" if sp_m else "0%"]
+        ]
         
-        for m in matches:
-            my_side = 0 if m.is_radiant else 1
-            for pb in m.pick_bans:
-                if pb.is_pick and pb.team_side == my_side:
-                    pick_counts[pb.hero_id] = pick_counts.get(pb.hero_id, 0) + 1
-                if not pb.is_pick and pb.team_side != my_side:
-                    ban_counts[pb.hero_id] = ban_counts.get(pb.hero_id, 0) + 1
-        
-        # Picks
-        if pick_counts:
-            df_p = pd.DataFrame(list(pick_counts.items()), columns=['hero_id', 'count'])
-            df_p['hero_name'] = df_p['hero_id'].apply(lambda x: hm.get_hero(x).get('cn_name'))
-            df_p = df_p.sort_values('count', ascending=False)
-            df_p[['hero_name', 'count']].to_excel(writer, sheet_name="本队Pick", index=False)
-            
-        # Bans
-        if ban_counts:
-            df_b = pd.DataFrame(list(ban_counts.items()), columns=['hero_id', 'count'])
-            df_b['hero_name'] = df_b['hero_id'].apply(lambda x: hm.get_hero(x).get('cn_name'))
-            df_b = df_b.sort_values('count', ascending=False)
-            df_b[['hero_name', 'count']].to_excel(writer, sheet_name="对手Ban", index=False)
-            
-        # --- Sheet 3: Player Stats ---
-        # Identify main players (simplification: just list all players found in filtered matches)
-        player_stats = []
-        
-        # We process all players in these matches
-        # Map: Account ID -> {Hero -> {picks, wins...}}
-        p_map = {}
-        
-        for m in matches:
-            my_side = 0 if m.is_radiant else 1
-            radiant_won = (m.is_radiant == m.win)
-            
-            for p in m.players:
-                if p.team_side == my_side and p.account_id:
-                    if p.account_id not in p_map:
-                        p_map[p.account_id] = {'name': p.name or str(p.account_id), 'heroes': {}}
-                    
-                    ph_map = p_map[p.account_id]['heroes']
-                    if p.hero_id not in ph_map:
-                        ph_map[p.hero_id] = {'picks':0, 'wins':0}
-                    
-                    ph_map[p.hero_id]['picks'] += 1
-                    
-                    # Did this player win?
-                    player_won = (p.team_side == 0 and radiant_won) or (p.team_side == 1 and not radiant_won)
-                    if player_won:
-                        ph_map[p.hero_id]['wins'] += 1
-        
-        # Flatten for Excel
-        # Columns: Player, Hero, Picks, Win Rate
-        export_rows = []
-        for pid, p_data in p_map.items():
-            # Get real name if possible
-            p_obj = db.query(Player).filter(Player.account_id == pid).first()
-            p_name = p_obj.name if p_obj else p_data['name']
-            
-            for hid, stats in p_data['heroes'].items():
-                h_name = hm.get_hero(hid).get('cn_name')
-                picks = stats['picks']
-                wr = stats['wins'] / picks if picks else 0
-                export_rows.append({
-                    "选手": p_name,
-                    "英雄": h_name,
-                    "场次": picks,
-                    "胜率": f"{wr:.1%}"
-                })
-        
-        if export_rows:
-            df_players = pd.DataFrame(export_rows)
-            # Sort by Player then Picks
-            df_players = df_players.sort_values(['选手', '场次'], ascending=[True, False])
-            df_players.to_excel(writer, sheet_name="选手英雄池", index=False)
+        for r_idx, row_data in enumerate(stats_data, start=1):
+            for c_idx, val in enumerate(row_data, start=1):
+                cell = ws_stats.cell(row=r_idx, column=c_idx, value=val)
+                if r_idx == 1: cell.font = Font(bold=True)
 
+    # 3.2 Top 10 Common Heroes & Combinations
+    ws_stats.cell(row=8, column=1, value="常用英雄及最佳搭档 (Top 10)").font = Font(bold=True)
+    ws_stats.append(["排名", "英雄", "出场次数", "胜率", "最佳搭档1", "场次", "最佳搭档2", "场次", "最佳搭档3", "场次"])
+    
+    # Calc Logic
+    pick_counts = {}
+    hero_wins = {}
+    hero_partners = {} # hid -> {partner_id: count}
+    
+    for m in matches:
+        my_side = 0 if m.is_radiant else 1
+        my_picks = [pb.hero_id for pb in m.pick_bans if pb.is_pick and pb.team_side == my_side]
+        
+        for hid in my_picks:
+            pick_counts[hid] = pick_counts.get(hid, 0) + 1
+            if m.win:
+                hero_wins[hid] = hero_wins.get(hid, 0) + 1
+                
+            if hid not in hero_partners: hero_partners[hid] = {}
+            for pid in my_picks:
+                if hid != pid:
+                    hero_partners[hid][pid] = hero_partners[hid].get(pid, 0) + 1
+                    
+    sorted_heroes = sorted(pick_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+    
+    start_row = 10
+    for i, (hid, count) in enumerate(sorted_heroes, start=1):
+        h_name = hm.get_hero(hid).get('cn_name')
+        wr = hero_wins.get(hid, 0) / count
+        
+        row_vals = [i, h_name, count, f"{wr:.1%}"]
+        
+        # Partners
+        partners = hero_partners.get(hid, {})
+        sorted_partners = sorted(partners.items(), key=lambda x: x[1], reverse=True)[:3]
+        
+        for pid, p_count in sorted_partners:
+            p_name = hm.get_hero(pid).get('cn_name')
+            row_vals.extend([p_name, p_count])
+            
+        # Write Row
+        for col, val in enumerate(row_vals, start=1):
+            ws_stats.cell(row=start_row + i - 1, column=col, value=val)
+
+    # 3.3 Signature Heroes by Position (1-5)
+    ws_stats.cell(row=start_row + 12, column=1, value="各位置绝活列表").font = Font(bold=True)
+    
+    # Logic from page: find main player for each pos, then list their top heroes
+    # Identify Main Players
+    pos_player_counts = {i: {} for i in range(1, 6)}
+    for m in matches: # Use all matches passed in
+        my_side = 0 if m.is_radiant else 1
+        my_ps = [p for p in m.players if p.team_side == my_side]
+        for p in my_ps:
+            if p.position and 1 <= p.position <= 5 and p.account_id:
+                pos_player_counts[p.position][p.account_id] = pos_player_counts[p.position].get(p.account_id, 0) + 1
+    
+    main_players = {}
+    for pos, counts in pos_player_counts.items():
+        if counts:
+            main_players[pos] = max(counts, key=counts.get)
+            
+    # Headers
+    base_r = start_row + 13
+    ws_stats.cell(row=base_r, column=1, value="位置")
+    ws_stats.cell(row=base_r, column=2, value="选手")
+    ws_stats.cell(row=base_r, column=3, value="绝活英雄 (按场次)")
+    
+    for pos in range(1, 6):
+        r = base_r + pos
+        acc_id = main_players.get(pos)
+        
+        ws_stats.cell(row=r, column=1, value=f"{pos}号位")
+        
+        if not acc_id:
+            ws_stats.cell(row=r, column=2, value="未识别")
+            continue
+            
+        # Get Name
+        alias = db.query(PlayerAlias).filter(PlayerAlias.account_id == acc_id).first()
+        p_info = db.query(Player).filter(Player.account_id == acc_id).first()
+        p_name = "未知"
+        if alias and alias.player: p_name = alias.player.name
+        elif p_info: p_name = p_info.name
+        else: p_name = str(acc_id)
+        
+        ws_stats.cell(row=r, column=2, value=p_name)
+        
+        # Get Top Heroes for this player in these matches
+        p_heroes = {}
+        for m in matches:
+             p_rec = next((p for p in m.players if p.account_id == acc_id), None)
+             if p_rec:
+                 p_heroes[p_rec.hero_id] = p_heroes.get(p_rec.hero_id, 0) + 1
+                 
+        sorted_ph = sorted(p_heroes.items(), key=lambda x: x[1], reverse=True)[:5]
+        hero_strs = [f"{hm.get_hero(hid).get('cn_name')}({c})" for hid, c in sorted_ph]
+        
+        ws_stats.cell(row=r, column=3, value=", ".join(hero_strs))
+        
+    output = BytesIO()
+    wb.save(output)
     return output.getvalue()
 
 def show():
@@ -134,9 +277,18 @@ def show():
         db.close()
         return
     
-    # League Selection (Multi-select)
-    all_leagues = db.query(League).order_by(League.league_id.desc()).all()
-    league_opts = {f"{l.name}": l.league_id for l in all_leagues}
+    # League Selection (Updated Logic: Dynamic Filter based on Selected Team)
+    # Filter matches for the selected team first to get relevant leagues
+    team_matches_query = db.query(Match.league_id).filter(Match.team_name == selected_team).distinct()
+    team_league_ids = [r[0] for r in team_matches_query.all()]
+    
+    # Fetch League details only for these IDs
+    if team_league_ids:
+        relevant_leagues = db.query(League).filter(League.league_id.in_(team_league_ids)).order_by(League.league_id.desc()).all()
+        league_opts = {f"{l.name}": l.league_id for l in relevant_leagues}
+    else:
+        league_opts = {}
+        
     selected_league_names = st.sidebar.multiselect("筛选联赛", options=list(league_opts.keys()))
     selected_league_ids = [league_opts[n] for n in selected_league_names] if selected_league_names else []
 
@@ -173,14 +325,16 @@ def show():
     
     # --- Excel Export Button ---
     if st.sidebar.button("生成 Excel 报告"):
-        excel_data = generate_excel_export(matches, selected_team, db, hm)
-        if excel_data:
-            st.sidebar.download_button(
-                label="📥 下载 Excel",
-                data=excel_data,
-                file_name=f"{selected_team}_analysis_{datetime.now().strftime('%Y%m%d')}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+        with st.spinner("正在生成详细 Excel 报告 (包含图片)..."):
+            # Ensure filtering context is passed/used implicitly by passing 'matches' which is already filtered.
+            excel_data = generate_detailed_excel_export(matches, selected_team, db, hm)
+            if excel_data:
+                st.sidebar.download_button(
+                    label="📥 下载 Excel",
+                    data=excel_data,
+                    file_name=f"{selected_team}_Detailed_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
     # =================================================================
     # TABS
@@ -257,7 +411,7 @@ def show():
                 df_pick['英雄'] = df_pick['hero_id'].apply(lambda x: hm.get_hero(x).get('cn_name'))
                 df_pick['场次'] = df_pick['count']
                 df_pick = df_pick.sort_values('count', ascending=False).head(10)
-                st.dataframe(df_pick[['英雄', '场次']], hide_index=True, use_container_width=False)
+                st.dataframe(df_pick[['英雄', '场次']], hide_index=True)
             else:
                 st.caption("无数据")
                 
@@ -268,7 +422,7 @@ def show():
                 df_ban['英雄'] = df_ban['hero_id'].apply(lambda x: hm.get_hero(x).get('cn_name'))
                 df_ban['场次'] = df_ban['count']
                 df_ban = df_ban.sort_values('count', ascending=False).head(10)
-                st.dataframe(df_ban[['英雄', '场次']], hide_index=True, use_container_width=False)
+                st.dataframe(df_ban[['英雄', '场次']], hide_index=True)
             else:
                 st.caption("无数据")
 
@@ -476,9 +630,11 @@ def show():
                 
                 is_radiant_first = (m.is_radiant == m.first_pick)
                 
-                # Center the visual
-                c1, c2, c3 = st.columns([1, 2, 1])
-                with c2:
-                    render_bp_visual(m.pick_bans, rad_name, dire_name, hm, first_pick_radiant=is_radiant_first)
+                # Center the visual - or standard layout
+                # User requested "side-by-side" compact view for BP chain too?
+                # "优化一下比赛列表和统计分析中BP显示的排版" -> "Stats Analysis BP Chain" also implied.
+                # So we use the new layout here too.
+                
+                render_bp_visual(m.pick_bans, rad_name, dire_name, hm, first_pick_radiant=is_radiant_first, layout="side-by-side")
 
     db.close()

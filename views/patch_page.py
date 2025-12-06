@@ -55,4 +55,4 @@ def show():
     # Sort desc by date
     data.sort(key=lambda x: x['Start Date'], reverse=True)
     
-    st.dataframe(data, use_container_width=True)
+    st.dataframe(data)

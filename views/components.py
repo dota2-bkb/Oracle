@@ -225,17 +225,40 @@ def generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pi
         print(f"Image Gen Error: {e}")
         return None
 
-def render_bp_visual(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True):
+def render_bp_visual(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True, layout="default"):
     """
     Main entry point for UI.
+    layout: "default" (top-down) or "side-by-side" (image left, html right)
     """
     img = generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant)
     
-    if img:
-        st.image(img, width=400) # Adjusted width for sidebar/list view
-    
-    # Always render HTML strip as requested
-    render_html_strip(pick_bans, radiant_name, dire_name, hero_manager)
+    if layout == "side-by-side":
+        # Requested: Image scaled to 66% and side-by-side with HTML
+        # Originally image width 400. 66% is 264.
+        # But user said "shrink to 66%", maybe of original? 
+        # Original template is 665px wide. 66% of 665 is ~440px.
+        # Previous fixed width was 400. 
+        # Let's assume user wants it smaller than before or smaller relative to container?
+        # "缩小到原来的66%" -> if original display was 400px, now 266px?
+        # Or relative to the 665px template? 0.66 * 665 = 438px.
+        # Let's try 300px width for image to be compact.
+        
+        c1, c2 = st.columns([1, 2]) # Image takes 1/3, HTML takes 2/3
+        with c1:
+            if img:
+                st.image(img, width=250) 
+            else:
+                st.write("Image N/A")
+                
+        with c2:
+            render_html_strip(pick_bans, radiant_name, dire_name, hero_manager)
+            
+    else:
+        # Default top-down behavior
+        if img:
+            st.image(img, width=400) 
+        
+        render_html_strip(pick_bans, radiant_name, dire_name, hero_manager)
 
 def render_html_strip(pick_bans, radiant_name, dire_name, hero_manager):
     """

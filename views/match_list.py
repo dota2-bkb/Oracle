@@ -112,10 +112,14 @@ def show():
             # Determine First Pick Team
             is_radiant_first = (match.is_radiant == match.first_pick)
             
-            # Render visual centered
-            c_vis_1, c_vis_2, c_vis_3 = st.columns([1, 2, 1])
-            with c_vis_2:
-                render_bp_visual(match.pick_bans, rad_name, dire_name, hm, first_pick_radiant=is_radiant_first)
+            # Render visual (side-by-side with HTML strip if needed, or controlled by component)
+            # User Req: "图像缩小到原来的66 % 并且和后面的html左右放置在页面中。不要上下放置"
+            # Component logic needs adjustment to allow side-by-side rendering or we do it here.
+            # Let's pass a flag or handle it here. 
+            # Ideally, render_bp_visual should return the image and we handle layout here.
+            
+            # Refactored usage:
+            render_bp_visual(match.pick_bans, rad_name, dire_name, hm, first_pick_radiant=is_radiant_first, layout="side-by-side")
             
             st.divider()
             

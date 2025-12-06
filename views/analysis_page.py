@@ -462,14 +462,39 @@ def show():
                 st.markdown("**最佳搭档:**")
                 partners = hero_partners.get(sel_hero_id, {})
                 if partners:
-                    df_partners = pd.DataFrame(list(partners.items()), columns=['partner_id', 'count'])
+                    # Logic to calculate Win Rate for partners
+                    # Need to go back to matches and find when both were picked
+                    partner_stats = []
+                    
+                    for pid, p_count in partners.items():
+                        # Count wins where both sel_hero_id and pid were on My Team
+                        wins_with_partner = 0
+                        for m in matches:
+                            my_side = 0 if m.is_radiant else 1
+                            # Check if both heroes are in My Picks
+                            my_picks = [pb.hero_id for pb in m.pick_bans if pb.is_pick and pb.team_side == my_side]
+                            
+                            if sel_hero_id in my_picks and pid in my_picks:
+                                if m.win:
+                                    wins_with_partner += 1
+                                    
+                        wr = wins_with_partner / p_count if p_count > 0 else 0
+                        partner_stats.append({
+                            'partner_id': pid,
+                            'count': p_count,
+                            'win_rate': wr
+                        })
+                    
+                    df_partners = pd.DataFrame(partner_stats)
                     df_partners['搭档'] = df_partners['partner_id'].apply(lambda x: hm.get_hero(x).get('cn_name'))
                     df_partners['头像'] = df_partners['partner_id'].apply(lambda x: hm.get_hero(x).get('icon_url'))
                     df_partners['场次'] = df_partners['count']
+                    df_partners['胜率'] = df_partners['win_rate'].apply(lambda x: f"{x:.1%}")
+                    
                     df_partners = df_partners.sort_values('count', ascending=False).head(5)
                     
                     st.dataframe(
-                        df_partners[['头像', '搭档', '场次']],
+                        df_partners[['头像', '搭档', '场次', '胜率']],
                         column_config={
                             "头像": st.column_config.ImageColumn("头像", width="small")
                         },

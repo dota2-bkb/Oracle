@@ -157,7 +157,7 @@ def get_hero_image(hero_data, size=None, is_ban=False):
         
     return None
 
-def generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True):
+def generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True, winner_name=None):
     """
     Generate the BP image using the template.
     """
@@ -214,8 +214,12 @@ def generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pi
                 
             # Approximate text positions (User didn't specify, keeping previous guess)
             # Assuming centered on top L/R
-            draw_top.text((100, 20), radiant_name, fill=(0, 255, 0, 255), font=font)
-            draw_top.text((450, 20), dire_name, fill=(255, 0, 0, 255), font=font)
+            
+            display_rad_name = f"👑 {radiant_name}" if radiant_name == winner_name else radiant_name
+            display_dire_name = f"👑 {dire_name}" if dire_name == winner_name else dire_name
+
+            draw_top.text((100, 20), display_rad_name, fill=(0, 255, 0, 255), font=font)
+            draw_top.text((450, 20), display_dire_name, fill=(255, 0, 0, 255), font=font)
         except:
             pass
 
@@ -225,24 +229,144 @@ def generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pi
         print(f"Image Gen Error: {e}")
         return None
 
-def render_bp_visual(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True, layout="default"):
+def generate_bp_grid_image(pick_bans, team_name_left, team_name_right, hero_manager, 
+                         left_is_radiant, left_is_first_pick, winner_is_left):
+    """
+    Generates a 2-column grid BP image (Template 2).
+    Layout:
+    Left Column (Team Left) | Right Column (Team Right)
+    Header Info             | Header Info
+    Picks (Row)             | Picks (Row)
+    Bans (Row)              | Bans (Row)
+    """
+    # Canvas Settings
+    # Adjusted for landscape hero icons (approx 1.7 ratio)
+    # Pick: 120x70, Ban: 85x50
+    pick_w, pick_h = 120, 70
+    ban_w, ban_h = 85, 50
+    gap = 5
+    padding = 10
+    
+    # Calculate Column Width required
+    # Picks row is widest: 5 items
+    # Width = padding + (5 * pick_w) + (4 * gap) + padding
+    #       = 10 + 600 + 20 + 10 = 640
+    col_width = 640
+    
+    header_height = 50
+    pick_row_height = pick_h + 10 # 80
+    ban_row_height = ban_h + 10 # 60
+    
+    total_w = col_width * 2
+    total_h = header_height + pick_row_height + ban_row_height + padding * 2
+    
+    bg_color = (28, 36, 45, 255) # Dark Blue/Grey
+    
+    img = Image.new("RGBA", (total_w, total_h), bg_color)
+    draw = ImageDraw.Draw(img)
+    
+    # Load Fonts
+    try:
+        font_header = ImageFont.truetype("msyh.ttc", 24)
+        font_num = ImageFont.truetype("arial.ttf", 16)
+    except:
+        try:
+            font_header = ImageFont.truetype("simhei.ttf", 24)
+            font_num = ImageFont.truetype("arial.ttf", 16)
+        except:
+            font_header = ImageFont.load_default()
+            font_num = ImageFont.load_default()
+
+    # --- Process Data into Left/Right Arrays ---
+    # Left Team
+    left_picks = []
+    left_bans = []
+    # Right Team
+    right_picks = []
+    right_bans = []
+    
+    sorted_pbs = sorted(pick_bans, key=lambda x: x.order)
+    
+    for pb in sorted_pbs:
+        h_data = hero_manager.get_hero(pb.hero_id)
+        item = {'hero': h_data, 'order': pb.order + 1}
+        
+        is_radiant_side = (pb.team_side == 0)
+        is_left_side = (is_radiant_side == left_is_radiant)
+        
+        if is_left_side:
+            if pb.is_pick: left_picks.append(item)
+            else: left_bans.append(item)
+        else:
+            if pb.is_pick: right_picks.append(item)
+            else: right_bans.append(item)
+            
+    # --- Draw Helper ---
+    def draw_team_section(offset_x, team_name, is_radiant, is_first_pick, is_winner, picks, bans):
+        # 1. Header
+        # Draw background for header?
+        header_bg = (34, 43, 54, 255)
+        draw.rectangle([offset_x, 0, offset_x + col_width - 2, header_height], fill=header_bg)
+        
+        # Logo/Team Name
+        side_str = "Radiant" if is_radiant else "Dire"
+        side_color = (0, 255, 0) if is_radiant else (255, 100, 100)
+        
+        pick_str = "1st Pick" if is_first_pick else "2nd Pick"
+        win_str = "(胜)" if is_winner else ""
+        
+        full_text = f"{team_name} | {side_str} | {pick_str} {win_str}"
+        draw.text((offset_x + 10, 10), full_text, fill=(255, 255, 255), font=font_header)
+        
+        # 2. Picks Row
+        # 5 items
+        start_y = header_height + padding
+        
+        for i, p in enumerate(picks):
+            if i >= 5: break
+            h_img = get_hero_image(p['hero'], size=(pick_w, pick_h), is_ban=False)
+            pos_x = offset_x + 10 + i * (pick_w + gap)
+            pos_y = start_y
+            
+            if h_img:
+                img.paste(h_img, (pos_x, pos_y))
+                
+            # Draw Order Number
+            draw.text((pos_x + 2, pos_y + 2), str(p['order']), fill=(0, 255, 0), font=font_num) # Green for picks
+
+        # 3. Bans Row
+        # 7 items
+        start_y_ban = start_y + pick_h + padding
+        
+        for i, b in enumerate(bans):
+            if i >= 7: break
+            h_img = get_hero_image(b['hero'], size=(ban_w, ban_h), is_ban=True)
+            pos_x = offset_x + 10 + i * (ban_w + gap)
+            pos_y = start_y_ban
+            
+            if h_img:
+                img.paste(h_img, (pos_x, pos_y))
+                
+            # Draw Order Number
+            draw.text((pos_x + 2, pos_y + 2), str(b['order']), fill=(255, 50, 50), font=font_num) # Red for bans
+
+    # Draw Left
+    draw_team_section(0, team_name_left, left_is_radiant, left_is_first_pick, winner_is_left, left_picks, left_bans)
+    
+    # Draw Right
+    draw_team_section(col_width, team_name_right, not left_is_radiant, not left_is_first_pick, not winner_is_left, right_picks, right_bans)
+    
+    return img
+
+def render_bp_visual(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant=True, layout="default", winner_name=None):
     """
     Main entry point for UI.
     layout: "default" (top-down) or "side-by-side" (image left, html right)
     """
-    img = generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant)
+    img = generate_bp_image(pick_bans, radiant_name, dire_name, hero_manager, first_pick_radiant, winner_name)
     
     if layout == "side-by-side":
         # Requested: Image scaled to 66% and side-by-side with HTML
-        # Originally image width 400. 66% is 264.
-        # But user said "shrink to 66%", maybe of original? 
-        # Original template is 665px wide. 66% of 665 is ~440px.
-        # Previous fixed width was 400. 
-        # Let's assume user wants it smaller than before or smaller relative to container?
-        # "缩小到原来的66%" -> if original display was 400px, now 266px?
-        # Or relative to the 665px template? 0.66 * 665 = 438px.
-        # Let's try 300px width for image to be compact.
-        
         c1, c2 = st.columns([1, 2]) # Image takes 1/3, HTML takes 2/3
         with c1:
             if img:

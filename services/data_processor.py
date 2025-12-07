@@ -2,7 +2,7 @@ import pandas as pd
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from sqlalchemy.orm import Session
-from models import Match, PickBan, PlayerPerformance, Team, Player
+from models import Match, PickBan, PlayerPerformance, Team, Player, PlayerAlias
 from config import RADIANT_TEAM, DIRE_TEAM
 
 class DataProcessor:
@@ -87,20 +87,42 @@ class DataProcessor:
         # 6. 处理选手表现 (PlayerPerformance)
         players = match_data.get('players', [])
         
+        # Pre-fetch players with default_pos for this batch to avoid N+1
+        account_ids = [p.get('account_id') for p in players if p.get('account_id')]
+        player_map = {} # acc_id -> default_pos
+        if account_ids:
+            # Query Player directly
+            db_players = db.query(Player).filter(Player.account_id.in_(account_ids)).all()
+            for dbp in db_players:
+                if dbp.default_pos:
+                    player_map[dbp.account_id] = dbp.default_pos
+            
+            # Query Aliases
+            db_aliases = db.query(PlayerAlias).filter(PlayerAlias.account_id.in_(account_ids)).all()
+            for alias in db_aliases:
+                if alias.player and alias.player.default_pos:
+                    player_map[alias.account_id] = alias.player.default_pos
+
         for p in players:
             slot = p.get('player_slot')
             is_p_radiant = slot < 128
             p_side = 0 if is_p_radiant else 1
-            
-            pos = 0
-            if 0 <= slot <= 4:
-                pos = slot + 1
-            elif 128 <= slot <= 132:
-                pos = slot - 127
-            else:
-                pos = 0
-            
             acc_id = p.get('account_id')
+
+            # Determine Position
+            pos = 0
+            
+            # Priority 1: Manual Roster Binding (Team Management)
+            if acc_id and acc_id in player_map:
+                pos = player_map[acc_id]
+            else:
+                # Priority 2: Slot Fallback (Legacy)
+                if 0 <= slot <= 4:
+                    pos = slot + 1
+                elif 128 <= slot <= 132:
+                    pos = slot - 127
+                else:
+                    pos = 0
             
             pp = PlayerPerformance(
                 match_id=new_match.id,
@@ -131,31 +153,8 @@ class DataProcessor:
         
         # Perspective 2: Dire
         dire_tid = match_data.get('dire_team_id')
-        # If dire_tid is missing, we still want to save the Dire perspective?
-        # Yes, user wants "A vs B" and "B vs A".
-        # If save_match_to_db sees target_team_id=None, it defaults to Radiant.
-        # We need to force Dire perspective.
-        
-        # Hack: Pass a dummy ID if None, or modify save logic to accept is_radiant flag directly?
-        # Let's rely on logic: if target_team_id matches dire_team_id (even if None==None?), it sets is_radiant=False.
-        # Wait, line 27: if target_team_id == dire_team_id: is_radiant = False
-        # If both are None, it falls through to is_radiant=True.
-        
-        # Let's pass the actual dire_team_id if it exists. If it doesn't exist (e.g. pub game), 
-        # we might not have a "Team B" to query later easily by ID, but by Name.
-        # The requirement "Team A vs Team B" implies known teams.
-        
         if dire_tid:
              m2 = DataProcessor.save_match_to_db(db, match_data, target_team_id=dire_tid)
              saved.append(m2)
-        else:
-            # Force create Dire perspective
-            # We need to bypass the "target_team_id" check inside save_match_to_db which relies on ID matching.
-            # But wait, save_match_to_db determines "is_radiant" based on ID match.
-            # If we want to force it, we should refactor save_match_to_db to accept 'force_perspective' or similar.
-            # OR:
-            # Just call it with the dire team ID. If dire_team_id is None, we can't easily force it without changing code.
-            # Let's assume professional matches have team IDs.
-            pass
             
         return saved

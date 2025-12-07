@@ -140,7 +140,27 @@ class HeroManager:
         从 CSV 导入并更新 Custom JSON
         """
         try:
-            df = pd.read_csv(csv_file)
+            df = None
+            # Try encodings
+            encodings = ['utf-8', 'gbk', 'gb18030']
+            
+            for enc in encodings:
+                try:
+                    if hasattr(csv_file, 'seek'):
+                        csv_file.seek(0)
+                    df = pd.read_csv(csv_file, encoding=enc)
+                    break
+                except UnicodeDecodeError:
+                    continue
+                except Exception as e:
+                    print(f"CSV Read Error ({enc}): {e}")
+                    # If it's not an encoding error, it might be format error, but continue trying encodings just in case? 
+                    # Usually read_csv throws ParserError for format. UnicodeDecodeError is specific.
+                    continue
+            
+            if df is None:
+                print("Failed to decode CSV with supported encodings.")
+                return False
             
             # Validate columns
             required = ["hero_id", "cn_name", "slang"]

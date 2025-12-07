@@ -3,13 +3,13 @@
     "id": 1,
     "en_name": "Anti-Mage",
     "cn_name": "敌法师",
-    "slang": "AM/敌法"
+    "slang": "敌法"
   },
   "2": {
     "id": 2,
     "en_name": "Axe",
     "cn_name": "斧王",
-    "slang": "Axe"
+    "slang": "斧王"
   },
   "3": {
     "id": 3,
@@ -21,97 +21,97 @@
     "id": 4,
     "en_name": "Bloodseeker",
     "cn_name": "嗜血狂魔",
-    "slang": "BS/血魔"
+    "slang": "血魔"
   },
   "5": {
     "id": 5,
     "en_name": "Crystal Maiden",
     "cn_name": "水晶室女",
-    "slang": "CM/冰女"
+    "slang": "冰女"
   },
   "6": {
     "id": 6,
     "en_name": "Drow Ranger",
     "cn_name": "卓尔游侠",
-    "slang": "Drow/小黑"
+    "slang": "小黑"
   },
   "7": {
     "id": 7,
     "en_name": "Earthshaker",
     "cn_name": "撼地者",
-    "slang": "ES/牛头"
+    "slang": "牛头"
   },
   "8": {
     "id": 8,
     "en_name": "Juggernaut",
     "cn_name": "主宰",
-    "slang": "Jugg/剑圣"
+    "slang": "剑圣"
   },
   "9": {
     "id": 9,
     "en_name": "Mirana",
     "cn_name": "米拉娜",
-    "slang": "POM/白虎"
+    "slang": "米拉娜"
   },
   "10": {
     "id": 10,
     "en_name": "Morphling",
     "cn_name": "变体精灵",
-    "slang": "Morph/水人"
+    "slang": "水人"
   },
   "11": {
     "id": 11,
     "en_name": "Shadow Fiend",
     "cn_name": "影魔",
-    "slang": "SF"
+    "slang": "影魔"
   },
   "12": {
     "id": 12,
     "en_name": "Phantom Lancer",
     "cn_name": "幻影长矛手",
-    "slang": "PL/猴子"
+    "slang": "猴子"
   },
   "13": {
     "id": 13,
     "en_name": "Puck",
     "cn_name": "帕克",
-    "slang": "Puck/仙女龙"
+    "slang": "帕克"
   },
   "14": {
     "id": 14,
     "en_name": "Pudge",
     "cn_name": "帕吉",
-    "slang": "Pudge/屠夫"
+    "slang": "屠夫"
   },
   "15": {
     "id": 15,
     "en_name": "Razor",
     "cn_name": "剃刀",
-    "slang": "Razor/电魂"
+    "slang": "电魂"
   },
   "16": {
     "id": 16,
     "en_name": "Sand King",
     "cn_name": "沙王",
-    "slang": "SK/沙王"
+    "slang": "沙王"
   },
   "17": {
     "id": 17,
     "en_name": "Storm Spirit",
     "cn_name": "风暴之灵",
-    "slang": "Storm/蓝猫"
+    "slang": "蓝猫"
   },
   "18": {
     "id": 18,
     "en_name": "Sven",
     "cn_name": "斯温",
-    "slang": "Sven/流浪"
+    "slang": "斯温"
   },
   "19": {
     "id": 19,
     "en_name": "Tiny",
     "cn_name": "小小",
-    "slang": "Tiny"
+    "slang": "小小"
   },
   "20": {
     "id": 20,
@@ -123,73 +123,73 @@
     "id": 21,
     "en_name": "Windranger",
     "cn_name": "风行者",
-    "slang": "WR/风行"
+    "slang": "风行"
   },
   "22": {
     "id": 22,
     "en_name": "Zeus",
     "cn_name": "宙斯",
-    "slang": "Zeus"
+    "slang": "宙斯"
   },
   "23": {
     "id": 23,
     "en_name": "Kunkka",
     "cn_name": "昆卡",
-    "slang": "Kunkka/船长"
+    "slang": "船长"
   },
   "25": {
     "id": 25,
     "en_name": "Lina",
     "cn_name": "莉娜",
-    "slang": "Lina/火女"
+    "slang": "火女"
   },
   "26": {
     "id": 26,
     "en_name": "Lion",
     "cn_name": "莱恩",
-    "slang": "Lion/恶魔巫师"
+    "slang": "莱恩"
   },
   "27": {
     "id": 27,
     "en_name": "Shadow Shaman",
     "cn_name": "暗影萨满",
-    "slang": "SS/小Y"
+    "slang": "小Y"
   },
   "28": {
     "id": 28,
     "en_name": "Slardar",
     "cn_name": "斯拉达",
-    "slang": "Slardar/大鱼人"
+    "slang": "大鱼"
   },
   "29": {
     "id": 29,
     "en_name": "Tidehunter",
     "cn_name": "潮汐猎人",
-    "slang": "Tide/潮汐"
+    "slang": "潮汐"
   },
   "30": {
     "id": 30,
     "en_name": "Witch Doctor",
     "cn_name": "巫医",
-    "slang": "WD"
+    "slang": "巫医"
   },
   "31": {
     "id": 31,
     "en_name": "Lich",
     "cn_name": "巫妖",
-    "slang": "Lich"
+    "slang": "巫妖"
   },
   "32": {
     "id": 32,
     "en_name": "Riki",
     "cn_name": "力丸",
-    "slang": "Riki/隐刺"
+    "slang": "SA"
   },
   "33": {
     "id": 33,
     "en_name": "Enigma",
     "cn_name": "谜团",
-    "slang": "Enigma"
+    "slang": "谜团"
   },
   "34": {
     "id": 34,
@@ -201,49 +201,49 @@
     "id": 35,
     "en_name": "Sniper",
     "cn_name": "狙击手",
-    "slang": "Sniper/火枪"
+    "slang": "火枪"
   },
   "36": {
     "id": 36,
     "en_name": "Necrophos",
     "cn_name": "瘟疫法师",
-    "slang": "Necro"
+    "slang": "NEC"
   },
   "37": {
     "id": 37,
     "en_name": "Warlock",
     "cn_name": "术士",
-    "slang": "Warlock/WL"
+    "slang": "术士"
   },
   "38": {
     "id": 38,
     "en_name": "Beastmaster",
     "cn_name": "兽王",
-    "slang": "BM"
+    "slang": "兽王"
   },
   "39": {
     "id": 39,
     "en_name": "Queen of Pain",
     "cn_name": "痛苦女王",
-    "slang": "QoP/女王"
+    "slang": "女王"
   },
   "40": {
     "id": 40,
     "en_name": "Venomancer",
     "cn_name": "剧毒术士",
-    "slang": "Veno/剧毒"
+    "slang": "剧毒"
   },
   "41": {
     "id": 41,
     "en_name": "Faceless Void",
     "cn_name": "虚空假面",
-    "slang": "Void/虚空"
+    "slang": "虚空"
   },
   "42": {
     "id": 42,
     "en_name": "Wraith King",
     "cn_name": "冥魂大帝",
-    "slang": "WK/骷髅王"
+    "slang": "骷髅王"
   },
   "43": {
     "id": 43,
@@ -261,7 +261,7 @@
     "id": 45,
     "en_name": "Pugna",
     "cn_name": "帕格纳",
-    "slang": "Pugna/骨法"
+    "slang": "骨法"
   },
   "46": {
     "id": 46,
@@ -273,205 +273,205 @@
     "id": 47,
     "en_name": "Viper",
     "cn_name": "冥界亚龙",
-    "slang": "Viper/毒龙"
+    "slang": "毒龙"
   },
   "48": {
     "id": 48,
     "en_name": "Luna",
     "cn_name": "露娜",
-    "slang": "Luna/月骑"
+    "slang": "露娜"
   },
   "49": {
     "id": 49,
     "en_name": "Dragon Knight",
     "cn_name": "龙骑士",
-    "slang": "DK/龙骑"
+    "slang": "龙骑"
   },
   "50": {
     "id": 50,
     "en_name": "Dazzle",
     "cn_name": "戴泽",
-    "slang": "Dazzle/暗牧"
+    "slang": "戴泽"
   },
   "51": {
     "id": 51,
     "en_name": "Clockwerk",
     "cn_name": "发条技师",
-    "slang": "Clock/发条"
+    "slang": "发条"
   },
   "52": {
     "id": 52,
     "en_name": "Leshrac",
     "cn_name": "拉席克",
-    "slang": "Leshrac/老鹿"
+    "slang": "老鹿"
   },
   "53": {
     "id": 53,
     "en_name": "Nature's Prophet",
     "cn_name": "先知",
-    "slang": "NP"
+    "slang": "先知"
   },
   "54": {
     "id": 54,
     "en_name": "Lifestealer",
     "cn_name": "噬魂鬼",
-    "slang": "Naix/小狗"
+    "slang": "小狗"
   },
   "55": {
     "id": 55,
     "en_name": "Dark Seer",
     "cn_name": "黑暗贤者",
-    "slang": "DS/兔子"
+    "slang": "兔子"
   },
   "56": {
     "id": 56,
     "en_name": "Clinkz",
     "cn_name": "克林克兹",
-    "slang": "Clinkz/小骷髅"
+    "slang": "小骷髅"
   },
   "57": {
     "id": 57,
     "en_name": "Omniknight",
     "cn_name": "全能骑士",
-    "slang": "Omni/全能"
+    "slang": "全能"
   },
   "58": {
     "id": 58,
     "en_name": "Enchantress",
     "cn_name": "魅惑魔女",
-    "slang": "Ench/小鹿"
+    "slang": "小鹿"
   },
   "59": {
     "id": 59,
     "en_name": "Huskar",
     "cn_name": "哈斯卡",
-    "slang": "Huskar/神灵"
+    "slang": "哈斯卡"
   },
   "60": {
     "id": 60,
     "en_name": "Night Stalker",
     "cn_name": "暗夜魔王",
-    "slang": "NS/夜魔"
+    "slang": "夜魔"
   },
   "61": {
     "id": 61,
     "en_name": "Broodmother",
     "cn_name": "育母蜘蛛",
-    "slang": "Brood/蜘蛛"
+    "slang": "蜘蛛"
   },
   "62": {
     "id": 62,
     "en_name": "Bounty Hunter",
     "cn_name": "赏金猎人",
-    "slang": "BH/赏金"
+    "slang": "赏金"
   },
   "63": {
     "id": 63,
     "en_name": "Weaver",
     "cn_name": "编织者",
-    "slang": "Weaver/蚂蚁"
+    "slang": "蚂蚁"
   },
   "64": {
     "id": 64,
     "en_name": "Jakiro",
     "cn_name": "杰奇洛",
-    "slang": "THD/双头龙"
+    "slang": "双头龙"
   },
   "65": {
     "id": 65,
     "en_name": "Batrider",
     "cn_name": "蝙蝠骑士",
-    "slang": "Bat/蝙蝠"
+    "slang": "蝙蝠"
   },
   "66": {
     "id": 66,
     "en_name": "Chen",
     "cn_name": "陈",
-    "slang": "Chen"
+    "slang": "陈"
   },
   "67": {
     "id": 67,
     "en_name": "Spectre",
     "cn_name": "幽鬼",
-    "slang": "Spec/幽鬼"
+    "slang": "幽鬼"
   },
   "68": {
     "id": 68,
     "en_name": "Ancient Apparition",
     "cn_name": "远古冰魄",
-    "slang": "AA/冰魂"
+    "slang": "冰魂"
   },
   "69": {
     "id": 69,
     "en_name": "Doom",
     "cn_name": "末日使者",
-    "slang": "Doom/末日"
+    "slang": "末日"
   },
   "70": {
     "id": 70,
     "en_name": "Ursa",
     "cn_name": "于萨",
-    "slang": "Ursa/拍拍"
+    "slang": "拍拍"
   },
   "71": {
     "id": 71,
     "en_name": "Spirit Breaker",
     "cn_name": "裂魂人",
-    "slang": "SB/白牛"
+    "slang": "白牛"
   },
   "72": {
     "id": 72,
     "en_name": "Gyrocopter",
     "cn_name": "矮人直升机",
-    "slang": "Gyro/飞机"
+    "slang": "飞机"
   },
   "73": {
     "id": 73,
     "en_name": "Alchemist",
     "cn_name": "炼金术士",
-    "slang": "Alch/炼金"
+    "slang": "炼金"
   },
   "74": {
     "id": 74,
     "en_name": "Invoker",
     "cn_name": "祈求者",
-    "slang": "Invoker/卡尔"
+    "slang": "卡尔"
   },
   "75": {
     "id": 75,
     "en_name": "Silencer",
     "cn_name": "沉默术士",
-    "slang": "Silencer/沉默"
+    "slang": "沉默"
   },
   "76": {
     "id": 76,
     "en_name": "Outworld Devourer",
     "cn_name": "黑鸟",
-    "slang": "OD/黑鸟"
+    "slang": "黑鸟"
   },
   "77": {
     "id": 77,
     "en_name": "Lycan",
     "cn_name": "狼人",
-    "slang": "Lycan"
+    "slang": "狼人"
   },
   "78": {
     "id": 78,
     "en_name": "Brewmaster",
     "cn_name": "酒仙",
-    "slang": "Brew/熊猫"
+    "slang": "酒仙"
   },
   "79": {
     "id": 79,
     "en_name": "Shadow Demon",
     "cn_name": "暗影恶魔",
-    "slang": "SD/毒狗"
+    "slang": "毒狗"
   },
   "80": {
     "id": 80,
     "en_name": "Lone Druid",
     "cn_name": "德鲁伊",
-    "slang": "LD"
+    "slang": "德鲁伊"
   },
   "81": {
     "id": 81,
@@ -483,163 +483,163 @@
     "id": 82,
     "en_name": "Meepo",
     "cn_name": "米波",
-    "slang": "Meepo/地卜"
+    "slang": "米波"
   },
   "83": {
     "id": 83,
     "en_name": "Treant Protector",
     "cn_name": "树精卫士",
-    "slang": "Treant/大树"
+    "slang": "大树"
   },
   "84": {
     "id": 84,
     "en_name": "Ogre Magi",
     "cn_name": "食人魔魔法师",
-    "slang": "Ogre/蓝胖"
+    "slang": "蓝胖"
   },
   "85": {
     "id": 85,
     "en_name": "Undying",
     "cn_name": "不朽尸王",
-    "slang": "Undying/尸王"
+    "slang": "尸王"
   },
   "86": {
     "id": 86,
     "en_name": "Rubick",
     "cn_name": "拉比克",
-    "slang": "Rubick"
+    "slang": "拉比克"
   },
   "87": {
     "id": 87,
     "en_name": "Disruptor",
     "cn_name": "干扰者",
-    "slang": "Disruptor/萨尔"
+    "slang": "萨尔"
   },
   "88": {
     "id": 88,
     "en_name": "Nyx Assassin",
     "cn_name": "司夜刺客",
-    "slang": "Nyx/小强"
+    "slang": "小强"
   },
   "89": {
     "id": 89,
     "en_name": "Naga Siren",
     "cn_name": "娜迦海妖",
-    "slang": "Naga/小娜迦"
+    "slang": "小娜迦"
   },
   "90": {
     "id": 90,
     "en_name": "Keeper of the Light",
     "cn_name": "光之守卫",
-    "slang": "KotL/光法"
+    "slang": "光法"
   },
   "91": {
     "id": 91,
     "en_name": "Io",
     "cn_name": "艾欧",
-    "slang": "Io/小精灵"
+    "slang": "精灵"
   },
   "92": {
     "id": 92,
     "en_name": "Visage",
     "cn_name": "维萨吉",
-    "slang": "Visage/死灵龙"
+    "slang": "死灵龙"
   },
   "93": {
     "id": 93,
     "en_name": "Slark",
     "cn_name": "斯拉克",
-    "slang": "Slark/小鱼人"
+    "slang": "小鱼"
   },
   "94": {
     "id": 94,
     "en_name": "Medusa",
     "cn_name": "美杜莎",
-    "slang": "Medusa/一姐"
+    "slang": "美杜莎"
   },
   "95": {
     "id": 95,
     "en_name": "Troll Warlord",
     "cn_name": "巨魔战将",
-    "slang": "Troll/巨魔"
+    "slang": "巨魔"
   },
   "96": {
     "id": 96,
     "en_name": "Centaur Warrunner",
     "cn_name": "半人马战行者",
-    "slang": "CW/人马"
+    "slang": "人马"
   },
   "97": {
     "id": 97,
     "en_name": "Magnus",
     "cn_name": "马格纳斯",
-    "slang": "Mag/猛犸"
+    "slang": "猛犸"
   },
   "98": {
     "id": 98,
     "en_name": "Timbersaw",
     "cn_name": "伐木机",
-    "slang": "Timbersaw/伐木机"
+    "slang": "伐木机"
   },
   "99": {
     "id": 99,
     "en_name": "Bristleback",
     "cn_name": "钢背兽",
-    "slang": "BB/钢背"
+    "slang": "钢背"
   },
   "100": {
     "id": 100,
     "en_name": "Tusk",
     "cn_name": "巨牙海民",
-    "slang": "Tusk/海民"
+    "slang": "海民"
   },
   "101": {
     "id": 101,
     "en_name": "Skywrath Mage",
     "cn_name": "天怒法师",
-    "slang": "Sky/天怒"
+    "slang": "天怒"
   },
   "102": {
     "id": 102,
     "en_name": "Abaddon",
     "cn_name": "亚巴顿",
-    "slang": "Abaddon/LOA"
+    "slang": "亚巴顿"
   },
   "103": {
     "id": 103,
     "en_name": "Elder Titan",
     "cn_name": "远古巨神",
-    "slang": "ET/大牛"
+    "slang": "大牛"
   },
   "104": {
     "id": 104,
     "en_name": "Legion Commander",
     "cn_name": "军团指挥官",
-    "slang": "LC/军团"
+    "slang": "军团"
   },
   "105": {
     "id": 105,
     "en_name": "Techies",
     "cn_name": "工程师",
-    "slang": "Techies/炸弹人"
+    "slang": "炸弹"
   },
   "106": {
     "id": 106,
     "en_name": "Ember Spirit",
     "cn_name": "灰烬之灵",
-    "slang": "Ember/火猫"
+    "slang": "火猫"
   },
   "107": {
     "id": 107,
     "en_name": "Earth Spirit",
     "cn_name": "大地之灵",
-    "slang": "Earth/土猫"
+    "slang": "土猫"
   },
   "108": {
     "id": 108,
     "en_name": "Underlord",
     "cn_name": "孽主",
-    "slang": "Underlord/大屁股"
+    "slang": "孽主"
   },
   "109": {
     "id": 109,
@@ -651,108 +651,108 @@
     "id": 110,
     "en_name": "Phoenix",
     "cn_name": "凤凰",
-    "slang": "Phoenix"
+    "slang": "凤凰"
   },
   "111": {
     "id": 111,
     "en_name": "Oracle",
     "cn_name": "神谕者",
-    "slang": "Oracle"
+    "slang": "神谕"
   },
   "112": {
     "id": 112,
     "en_name": "Winter Wyvern",
     "cn_name": "寒冬飞龙",
-    "slang": "WW/冰龙"
+    "slang": "冰龙"
   },
   "113": {
     "id": 113,
     "en_name": "Arc Warden",
     "cn_name": "天穹守望者",
-    "slang": "Arc/电狗"
+    "slang": "电狗"
   },
   "114": {
     "id": 114,
     "en_name": "Monkey King",
     "cn_name": "齐天大圣",
-    "slang": "MK/大圣"
+    "slang": "大圣"
   },
   "119": {
     "id": 119,
     "en_name": "Dark Willow",
     "cn_name": "邪影芳灵",
-    "slang": "Willow/花仙子"
+    "slang": "花仙"
   },
   "120": {
     "id": 120,
     "en_name": "Pangolier",
     "cn_name": "石鳞剑士",
-    "slang": "Pango/滚滚"
+    "slang": "滚滚"
   },
   "121": {
     "id": 121,
     "en_name": "Grimstroke",
     "cn_name": "天涯墨客",
-    "slang": "Grim/墨客"
+    "slang": "墨客"
   },
   "123": {
     "id": 123,
     "en_name": "Hoodwink",
     "cn_name": "森海飞霞",
-    "slang": "Hoodwink/松鼠"
+    "slang": "松鼠"
   },
   "126": {
     "id": 126,
     "en_name": "Void Spirit",
     "cn_name": "虚无之灵",
-    "slang": "Void/紫猫"
+    "slang": "紫猫"
   },
   "128": {
     "id": 128,
     "en_name": "Snapfire",
     "cn_name": "电炎绝手",
-    "slang": "Snap/老奶奶"
+    "slang": "老奶奶"
   },
   "129": {
     "id": 129,
     "en_name": "Mars",
     "cn_name": "玛尔斯",
-    "slang": "Mars"
+    "slang": "玛尔斯"
   },
   "131": {
     "id": 131,
     "en_name": "Ring Master",
     "cn_name": "百戏大王",
-    "slang": "Ringmaster"
+    "slang": "百戏"
   },
   "135": {
     "id": 135,
     "en_name": "Dawnbreaker",
     "cn_name": "破晓辰星",
-    "slang": "Dawn/大锤"
+    "slang": "大锤"
   },
   "136": {
     "id": 136,
     "en_name": "Marci",
     "cn_name": "玛西",
-    "slang": "Marci"
+    "slang": "玛西"
   },
   "137": {
     "id": 137,
     "en_name": "Primal Beast",
     "cn_name": "兽",
-    "slang": "Primal/兽"
+    "slang": "兽"
   },
   "138": {
     "id": 138,
     "en_name": "Muerta",
     "cn_name": "琼英碧灵",
-    "slang": "Muerta/双枪"
+    "slang": "奶绿"
   },
   "145": {
     "id": 145,
     "en_name": "Kez",
     "cn_name": "凯",
-    "slang": "Kez"
+    "slang": "凯"
   }
 }

@@ -10,59 +10,99 @@ def show():
     db = next(get_db())
     
     # --- Top Actions ---
-    if st.button("🔄 根据比赛记录自动计算并更新所有选手位置"):
-        with st.spinner("正在分析比赛记录..."):
-            # Logic:
-            # 1. Get all players in DB
-            # 2. For each player, query PlayerPerformance grouped by position
-            # 3. Find mode (most frequent) position
-            # 4. Update default_pos
-            
-            # Optimized:
-            # Query: account_id, position, count(*) from PlayerPerformance group by 1, 2
-            # Then process in python
-            
-            results = db.query(
-                PlayerPerformance.account_id, 
-                PlayerPerformance.position, 
-                func.count(PlayerPerformance.id)
-            ).filter(PlayerPerformance.position > 0)\
-             .group_by(PlayerPerformance.account_id, PlayerPerformance.position).all()
-            
-            # Process
-            player_pos_counts = {} # {acc_id: {pos: count}}
-            for acc_id, pos, count in results:
-                if not acc_id: continue
-                if acc_id not in player_pos_counts:
-                    player_pos_counts[acc_id] = {}
-                player_pos_counts[acc_id][pos] = count
-            
-            updated_count = 0
-            for acc_id, counts in player_pos_counts.items():
-                # Find max
-                best_pos = max(counts, key=counts.get)
+    c_act1, c_act2 = st.columns(2)
+    
+    with c_act1:
+        if st.button("🛠️ 将当前选手定位应用到历史比赛 (修复位置错误)"):
+            with st.spinner("正在修复历史数据..."):
+                # 1. Build Map: Account ID -> Default Pos
+                # Includes Aliases
+                players_with_pos = db.query(Player).filter(Player.default_pos != None).all()
                 
-                # Update Player
-                # Note: acc_id might be alias. We need to update MASTER player.
-                # Find player by alias or direct
+                pos_map = {} # acc_id -> pos
+                for p in players_with_pos:
+                    if p.default_pos and 1 <= p.default_pos <= 5:
+                        pos_map[p.account_id] = p.default_pos
+                        for alias in p.aliases:
+                            pos_map[alias.account_id] = p.default_pos
                 
-                # Check direct
-                player = db.query(Player).filter(Player.account_id == acc_id).first()
-                if not player:
-                    # Check alias
-                    alias = db.query(PlayerAlias).filter(PlayerAlias.account_id == acc_id).first()
-                    if alias:
-                        player = alias.player
+                if not pos_map:
+                    st.warning("未配置任何选手的常规位置，请先在下方配置。")
+                else:
+                    # 2. Update PlayerPerformance
+                    # Bulk update is tricky with different values.
+                    # We can iterate matches or use SQL CASE?
+                    # Given dataset size (thousands?), iterating in Python is acceptable for a "tool".
+                    
+                    # Optimization: Only fetch PPs where account_id is in map
+                    pps_to_update = db.query(PlayerPerformance).filter(
+                        PlayerPerformance.account_id.in_(pos_map.keys())
+                    ).all()
+                    
+                    updated_count = 0
+                    for pp in pps_to_update:
+                        new_pos = pos_map[pp.account_id]
+                        if pp.position != new_pos:
+                            pp.position = new_pos
+                            updated_count += 1
+                    
+                    db.commit()
+                    st.success(f"已基于当前人员配置修复了 {updated_count} 条比赛记录的位置信息！")
+
+    with c_act2:
+        if st.button("🔄 根据比赛记录猜测选手位置 (仅参考)"):
+            with st.spinner("正在分析比赛记录..."):
+                # Logic:
+                # 1. Get all players in DB
+                # 2. For each player, query PlayerPerformance grouped by position
+                # 3. Find mode (most frequent) position
+                # 4. Update default_pos
                 
-                if player:
-                    # Only update if current is None or we force update?
-                    # Let's update if different
-                    if player.default_pos != best_pos:
-                        player.default_pos = best_pos
-                        updated_count += 1
-            
-            db.commit()
-            st.success(f"已更新 {updated_count} 名选手的常规位置！")
+                # Optimized:
+                # Query: account_id, position, count(*) from PlayerPerformance group by 1, 2
+                # Then process in python
+                
+                results = db.query(
+                    PlayerPerformance.account_id, 
+                    PlayerPerformance.position, 
+                    func.count(PlayerPerformance.id)
+                ).filter(PlayerPerformance.position > 0)\
+                 .group_by(PlayerPerformance.account_id, PlayerPerformance.position).all()
+                
+                # Process
+                player_pos_counts = {} # {acc_id: {pos: count}}
+                for acc_id, pos, count in results:
+                    if not acc_id: continue
+                    if acc_id not in player_pos_counts:
+                        player_pos_counts[acc_id] = {}
+                    player_pos_counts[acc_id][pos] = count
+                
+                updated_count = 0
+                for acc_id, counts in player_pos_counts.items():
+                    # Find max
+                    best_pos = max(counts, key=counts.get)
+                    
+                    # Update Player
+                    # Note: acc_id might be alias. We need to update MASTER player.
+                    # Find player by alias or direct
+                    
+                    # Check direct
+                    player = db.query(Player).filter(Player.account_id == acc_id).first()
+                    if not player:
+                        # Check alias
+                        alias = db.query(PlayerAlias).filter(PlayerAlias.account_id == acc_id).first()
+                        if alias:
+                            player = alias.player
+                    
+                    if player:
+                        # Only update if current is None or we force update?
+                        # Let's update if different
+                        if player.default_pos != best_pos:
+                            player.default_pos = best_pos
+                            updated_count += 1
+                
+                db.commit()
+                st.success(f"已更新 {updated_count} 名选手的常规位置！")
 
     st.divider()
 
@@ -94,6 +134,8 @@ def show():
     
     if selected_team_id:
         query = query.filter(Player.team_id == selected_team_id)
+        # Sort by position for easier reading
+        query = query.order_by(Player.default_pos)
         
     if filter_pos:
         query = query.filter(Player.default_pos.in_(filter_pos))

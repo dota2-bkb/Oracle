@@ -1,4 +1,4 @@
-# DOTA2 Analyst Tool
+# Oracle_ the DOTA2 Analyst Tool
 
 A comprehensive match analysis and management tool designed for professional DOTA2 team coaches.
 

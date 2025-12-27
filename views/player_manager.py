@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from database import get_db
 from models import Player, PlayerAlias, Team, PlayerPerformance
 from sqlalchemy.orm import Session
@@ -170,7 +171,40 @@ def show():
                 c1, c2 = st.columns(2)
                 new_name = c1.text_input("职业 ID (Standard Name)", value=p.name)
                 new_remark = c2.text_input("备注 (Remark)", value=p.remark or "")
-                new_pos = c1.number_input("常规位置 (Pos)", min_value=0, max_value=5, value=p.default_pos or 0)
+                
+                # Position Selectbox
+                pos_options = [0, 1, 2, 3, 4, 5]
+                pos_labels = {0: "无 (-)", 1: "1号位", 2: "2号位", 3: "3号位", 4: "4号位", 5: "5号位"}
+                current_pos = p.default_pos if p.default_pos in pos_options else 0
+                
+                new_pos = c1.selectbox(
+                    "常规位置 (Pos)", 
+                    options=pos_options, 
+                    format_func=lambda x: pos_labels[x],
+                    index=pos_options.index(current_pos),
+                    key=f"pos_select_{p.id}"
+                )
+                
+                # Team Selection
+                # Build team options
+                all_teams_list = db.query(Team).order_by(Team.name).all()
+                team_map = {t.name: t.team_id for t in all_teams_list}
+                team_map["无战队"] = 0
+                
+                current_team_id = p.team_id or 0
+                # Find index
+                team_names = list(team_map.keys())
+                # Reverse lookup for display
+                current_team_name = "无战队"
+                if p.team:
+                    current_team_name = p.team.name
+                
+                try:
+                    default_idx = team_names.index(current_team_name)
+                except ValueError:
+                    default_idx = team_names.index("无战队")
+
+                new_team_name = c2.selectbox("所属战队 (Team)", options=team_names, index=default_idx)
                 
                 # Aliases
                 aliases = [str(a.account_id) for a in p.aliases if a.account_id != p.account_id]
@@ -182,6 +216,10 @@ def show():
                     p.name = new_name
                     p.remark = new_remark
                     p.default_pos = new_pos if new_pos > 0 else None
+                    
+                    # Update Team
+                    sel_team_id = team_map.get(new_team_name)
+                    p.team_id = sel_team_id if sel_team_id != 0 else None
                     
                     if new_alias_id and new_alias_id.isdigit():
                         aid = int(new_alias_id)
@@ -221,5 +259,149 @@ def show():
                         st.rerun()
                 else:
                     st.error("请输入有效的数字 ID")
+
+    # --- Bulk Edit Team Positions (Export/Import CSV) ---
+    st.divider()
+    st.subheader("批量战队位置管理 (Bulk Edit)")
+    
+    with st.expander("导出/导入 战队选手位置配置"):
+        st.info("说明：此功能用于批量规整战队选手的常规位置。导出 CSV -> 修改 Pos -> 上传更新。")
+        
+        # 1. Multi-select teams to export
+        all_teams_q = db.query(Team).order_by(Team.name).all()
+        team_opts = {t.name: t.team_id for t in all_teams_q}
+        
+        selected_export_teams = st.multiselect("选择要导出的战队", options=list(team_opts.keys()))
+        
+        if st.button("生成位置配置 CSV"):
+            if not selected_export_teams:
+                st.warning("请至少选择一个战队")
+            else:
+                # Generate DataFrame
+                # 按用户要求：只导出选手名字，不导出数字 ID
+                # Columns: Team Name, Team ID, Pos 1 Name ... Pos 5 Name
+                rows = []
+                for t_name in selected_export_teams:
+                    tid = team_opts[t_name]
+                    # Find players for this team
+                    t_players = db.query(Player).filter(Player.team_id == tid).all()
+                    
+                    # Map pos -> player
+                    pos_map = {i: None for i in range(1, 6)}
+                    
+                    # Heuristic: If multiple players have same default_pos, pick first found
+                    for p in t_players:
+                        if p.default_pos and 1 <= p.default_pos <= 5:
+                            if pos_map[p.default_pos] is None:
+                                pos_map[p.default_pos] = p
+                    
+                    row = {"Team Name": t_name, "Team ID": tid}
+                    for i in range(1, 6):
+                        p = pos_map[i]
+                        row[f"Pos {i} Name"] = p.name if p else ""
+                        
+                    rows.append(row)
+                
+                df_export = pd.DataFrame(rows)
+                csv = df_export.to_csv(index=False).encode('utf-8')
+                
+                st.download_button(
+                    label="📥 下载位置配置 CSV",
+                    data=csv,
+                    file_name="team_positions_export.csv",
+                    mime="text/csv"
+                )
+        
+        st.markdown("---")
+        
+        # 2. Import
+        uploaded_pos_file = st.file_uploader("上传修改后的 CSV", type=["csv"])
+        if uploaded_pos_file and st.button("应用位置更新"):
+            try:
+                # 使用多种编码尝试读取，兼容 Excel/记事本 保存的 GBK 等编码
+                df_new = None
+                encodings = ['utf-8', 'gbk', 'gb18030']
+                for enc in encodings:
+                    try:
+                        if hasattr(uploaded_pos_file, 'seek'):
+                            uploaded_pos_file.seek(0)
+                        df_new = pd.read_csv(uploaded_pos_file, encoding=enc)
+                        break
+                    except UnicodeDecodeError:
+                        continue
+                    except Exception as e:
+                        print(f"CSV Read Error ({enc}): {e}")
+                        continue
+                if df_new is None:
+                    st.error("无法用常见编码 (utf-8 / gbk / gb18030) 解析 CSV，请检查文件编码。")
+                    return
+                
+                # Validation
+                required_cols = ["Team ID"]
+                # 现在按名字导入：需要 Pos i Name 列
+                for i in range(1, 6):
+                    required_cols.append(f"Pos {i} Name")
+                
+                # Check columns
+                if not all(col in df_new.columns for col in required_cols):
+                    st.error("CSV 格式不匹配，请确保包含所有必需列 (Team ID, Pos 1 Account ID...)")
+                else:
+                    updated_count = 0
+                    errors = []
+                    
+                    for _, row in df_new.iterrows():
+                        tid = row.get("Team ID")
+                        t_name = row.get("Team Name", "Unknown")
+                        
+                        if pd.isna(tid):
+                            continue
+                        
+                        try:
+                            tid = int(tid)
+                        except:
+                            errors.append(f"无效的 Team ID: {tid}")
+                            continue
+                            
+                        # Process 1-5
+                        for i in range(1, 6):
+                            col_name = f"Pos {i} Name"
+                            p_name = row.get(col_name)
+                            
+                            # 空值：不修改该位置
+                            if pd.isna(p_name) or str(p_name).strip() == "":
+                                continue
+                            
+                            p_name = str(p_name).strip()
+                            
+                            # 按名字查选手，优先匹配此战队下的选手，其次全局匹配
+                            player = db.query(Player).filter(
+                                Player.team_id == tid,
+                                Player.name == p_name
+                            ).first()
+                            
+                            if not player:
+                                player = db.query(Player).filter(Player.name == p_name).first()
+                            
+                            if not player:
+                                errors.append(f"战队 {t_name} Pos {i}: 找不到名为 '{p_name}' 的选手 (跳过)")
+                                continue
+                            
+                            # Update Player
+                            player.team_id = tid
+                            player.default_pos = i
+                            updated_count += 1
+                    
+                    db.commit()
+                    
+                    if updated_count > 0:
+                        st.success(f"成功更新了 {updated_count} 个位置信息！")
+                    
+                    if errors:
+                        with st.expander("导入过程中的警告/错误", expanded=True):
+                            for e in errors:
+                                st.warning(e)
+                                
+            except Exception as e:
+                st.error(f"处理 CSV 失败: {e}")
 
     db.close()

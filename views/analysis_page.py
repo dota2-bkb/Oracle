@@ -14,7 +14,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 
 # --- Helper Function for Statistics Sheet ---
-def create_shared_stats_sheet(wb, matches, db, hm):
+def create_shared_stats_sheet(wb, matches, db, hm, team_name=None):
     ws_stats = wb.create_sheet("统计数据")
     
     # 3.1 Win Rates
@@ -114,6 +114,12 @@ def create_shared_stats_sheet(wb, matches, db, hm):
     ws_stats.cell(row=start_row + 12, column=1, value="各位置绝活列表").font = Font(bold=True)
     
     # Identify Main Players
+    # Logic:
+    # 1. Try to find players manually assigned to this team & position in DB.
+    # 2. If multiple manual players, use the one in the most recent match.
+    # 3. If no manual player, fallback to most frequent player in matches.
+    
+    # Pre-calculate fallback counts
     pos_player_counts = {i: {} for i in range(1, 6)}
     for m in matches: # Use all matches passed in
         my_side = 0 if m.is_radiant else 1
@@ -122,10 +128,63 @@ def create_shared_stats_sheet(wb, matches, db, hm):
             if p.position and 1 <= p.position <= 5 and p.account_id:
                 pos_player_counts[p.position][p.account_id] = pos_player_counts[p.position].get(p.account_id, 0) + 1
     
+    # Prepare Manual Players Map
+    # Resolve Team ID from team_name
+    manual_players = {i: [] for i in range(1, 6)}
+    if team_name:
+        target_team = db.query(Team).filter(Team.name == team_name).first()
+        if target_team:
+            # Get players in this team with default_pos set
+            team_players = db.query(Player).filter(Player.team_id == target_team.team_id, Player.default_pos != None).all()
+            for p in team_players:
+                if 1 <= p.default_pos <= 5:
+                    manual_players[p.default_pos].append(p.account_id)
+    
     main_players = {}
-    for pos, counts in pos_player_counts.items():
-        if counts:
-            main_players[pos] = max(counts, key=counts.get)
+    
+    for pos in range(1, 6):
+        candidates = manual_players[pos]
+        
+        if candidates:
+            # Case 1: Manual assignment exists
+            if len(candidates) == 1:
+                main_players[pos] = candidates[0]
+            else:
+                # Conflict: Multiple players for this pos. Find most recent.
+                # Sort candidates by "last match time" in the provided matches list
+                best_candidate = None
+                best_time = None
+                
+                # We need to scan matches to find latest appearance
+                # Matches are sorted by time (asc) in 'matches_asc' or we iterate 'matches' (which might be desc?)
+                # 'matches' passed to this function is usually desc (latest first) based on call site, but let's be safe.
+                # Actually, let's just look at 'matches' order.
+                
+                found = False
+                # Sort matches desc by time just to be sure
+                matches_desc = sorted(matches, key=lambda m: m.match_time, reverse=True)
+                
+                for m in matches_desc:
+                    if found: break
+                    my_side = 0 if m.is_radiant else 1
+                    my_ps = [p for p in m.players if p.team_side == my_side]
+                    
+                    for p in my_ps:
+                        if p.account_id in candidates:
+                            # Found the most recent one
+                            main_players[pos] = p.account_id
+                            found = True
+                            break
+                
+                if not found:
+                    # None of them played in these matches? Just pick the first one from DB
+                    main_players[pos] = candidates[0]
+                    
+        else:
+            # Case 2: No manual assignment, use statistics (fallback)
+            counts = pos_player_counts[pos]
+            if counts:
+                main_players[pos] = max(counts, key=counts.get)
             
     base_r = start_row + 13
     # Vertical Layout: 5 Columns (one per position)
@@ -176,7 +235,8 @@ def create_shared_stats_sheet(wb, matches, db, hm):
                  if player_won:
                      p_heroes[hid]['wins'] += 1
 
-        sorted_ph = sorted(p_heroes.items(), key=lambda x: x[1]['picks'], reverse=True)[:5]
+        # 原来只截取前 5 个英雄，现在改为：有多少就展示多少
+        sorted_ph = sorted(p_heroes.items(), key=lambda x: x[1]['picks'], reverse=True)
         
         for hid, stats in sorted_ph:
             h_data = hm.get_hero(hid)
@@ -296,7 +356,8 @@ def generate_detailed_excel_export(matches, team_name, db, hm):
     create_match_sheet(f"{team_name}-后选", lambda m: not m.first_pick)
     
     # --- Sheet 3: 统计信息 (Stats) ---
-    create_shared_stats_sheet(wb, matches, db, hm)
+    # 这里必须传入 team_name，才能在“各位置绝活列表”中优先使用 Player Manager 中手动配置的主力位置
+    create_shared_stats_sheet(wb, matches, db, hm, team_name=team_name)
 
     output = BytesIO()
     wb.save(output)
@@ -383,7 +444,7 @@ def generate_template_2(matches, team_name, db, hm):
     create_match_sheet(f"{team_name}-后选", lambda m: not m.first_pick)
     
     # --- Sheet 3: 统计信息 (Stats) ---
-    create_shared_stats_sheet(wb, matches, db, hm)
+    create_shared_stats_sheet(wb, matches, db, hm, team_name=team_name)
 
     output = BytesIO()
     wb.save(output)
@@ -409,7 +470,8 @@ def generate_template_3(matches, team_name, db, hm):
     border_thin = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
 
     # 2. Headers
-    # Groups: [Meta 4] [My Team 5] [Opponent 1+5] [Bans]
+    # Groups: [Meta 4] [My Team 5] [Opponent 5] [Side] [Bans]
+    # [比赛编号, 时间, 对手, 胜负, 我方pick1-5, 对方pick1-5, 阵营, 对方ban1-7, 我方ban1-7]
     
     # Row 1: High Level Headers
     ws.merge_cells('A1:D1') # Meta
@@ -424,21 +486,22 @@ def generate_template_3(matches, team_name, db, hm):
     
     # FP Bans: 7 columns (P to V)
     ws.merge_cells('P1:V1') 
-    ws.cell(row=1, column=16, value="1选方Ban").alignment = alignment_center
+    ws.cell(row=1, column=16, value="1选Ban").alignment = alignment_center
     ws.cell(row=1, column=16).fill = fill_yellow
     
     # SP Bans: 7 columns (W to AC)
     ws.merge_cells('W1:AC1') 
-    ws.cell(row=1, column=23, value="2选方Ban").alignment = alignment_center
-    ws.cell(row=1, column=23).fill = fill_blue 
+    ws.cell(row=1, column=23, value="2选Ban").alignment = alignment_center
+    ws.cell(row=1, column=23).fill = fill_green 
 
     # Row 2: Detail Headers
     headers = [
-        "编号", "时间", "对手", "胜负", # Meta
-        "1", "2", "3", "4", "5", # My Team Pos
-        "阵营", "1号位", "2号位", "3号位", "4号位", "5号位", # Opponent
-        "Ban1", "Ban2", "Ban3", "Ban4", "Ban5", "Ban6", "Ban7", # FP Bans
-        "Ban1", "Ban2", "Ban3", "Ban4", "Ban5", "Ban6", "Ban7"  # SP Bans
+        "编号", "时间", "对手", "胜负",              # Meta
+        "我方1", "我方2", "我方3", "我方4", "我方5",
+        "阵营",     # My Team Picks
+        "对手1", "对手2", "对手3", "对手4", "对手5",    # Opponent Picks                       
+        "对手Ban1", "对手Ban2", "对手Ban3", "对手Ban4", "对手Ban5", "对手Ban6", "对手Ban7",
+        "我方Ban1", "我方Ban2", "我方Ban3", "我方Ban4", "我方Ban5", "我方Ban6", "我方Ban7"
     ]
     
     for i, h in enumerate(headers, start=1):
@@ -555,13 +618,9 @@ def generate_template_3(matches, team_name, db, hm):
                     elif order in COLOR_GREEN_PICK_ORDERS:
                         cell.fill = fill_green
 
-        # J: Side (Opponent Side)
-        opp_side_str = "夜魇" if my_is_radiant else "天辉"
-        ws.cell(row=row_idx, column=10, value=opp_side_str).border = border_thin
-        
-        # K-O: Opponent Pos 1-5
+        # K-O: Opponent Pos 1-5  (列 10-14)
         for p in range(1, 6):
-            col = 10 + p # K is 11
+            col = 10 + p  # 10..14
             hid = opp_pmap.get(p)
             cell = ws.cell(row=row_idx, column=col)
             cell.border = border_thin
@@ -579,43 +638,45 @@ def generate_template_3(matches, team_name, db, hm):
                     elif order in COLOR_GREEN_PICK_ORDERS:
                         cell.fill = fill_green
 
+        # 阵营列（My Side），放在第 15 列
+        side_str = "天辉" if my_is_radiant else "夜魇"
+        side_cell = ws.cell(row=row_idx, column=10, value=side_str)
+        # 天辉=绿色粗体，夜魇=红色粗体
+        if side_str == "天辉":
+            side_cell.font = Font(color="008000", bold=True)
+        else:
+            side_cell.font = Font(color="FF0000", bold=True)
+        side_cell.border = border_thin
+        side_cell.alignment = alignment_center
+
         # --- Bans ---
-        # Need to separate bans into FP Bans (first 3) and SP Bans (first 4)
-        # BUT User Logic: "1 4 7 Yellow, 2 3 5 6 Green" -> This refers to Global Order?
-        # If we list bans for FP team, they are Orders 1, 3, 7...
-        # If we list bans for SP team, they are Orders 2, 4, 5, 6...
-        
-        fp_bans = []
-        sp_bans = []
+        # 仍按全局顺位：1/4/7 黄，2/3/5/6 绿
+        my_side_int = 0 if my_is_radiant else 1
+        my_bans = []
+        opp_bans = []
         
         sorted_pbs = sorted(m.pick_bans, key=lambda x: x.order)
-        
-        # Determine sides
-        # My Side = my_is_radiant (0/1)
-        # FP Side: If i_am_fp is True, FP Side = My Side. Else Opp Side.
-        fp_side = (0 if my_is_radiant else 1) if i_am_fp else (1 if my_is_radiant else 0)
         
         for pb in sorted_pbs:
             if not pb.is_pick:
                 h_data = hm.get_hero(pb.hero_id)
                 h_name = h_data.get('slang') or h_data.get('cn_name')
                 order = pb.order + 1
-                
                 item = {'name': h_name, 'order': order}
                 
-                if pb.team_side == fp_side:
-                    fp_bans.append(item)
+                if pb.team_side == my_side_int:
+                    my_bans.append(item)
                 else:
-                    sp_bans.append(item)
+                    opp_bans.append(item)
                     
-        # Fill Columns P-V (FP Bans 1-7)
+        # 对方 Ban：P-V 列（16-22）
         for i in range(7):
             col = 16 + i
             cell = ws.cell(row=row_idx, column=col)
             cell.border = border_thin
             
-            if i < len(fp_bans):
-                b = fp_bans[i]
+            if i < len(opp_bans):
+                b = opp_bans[i]
                 cell.value = b['name']
                 o = b['order']
                 if o in COLOR_YELLOW_BAN_ORDERS: cell.fill = fill_yellow
@@ -623,14 +684,14 @@ def generate_template_3(matches, team_name, db, hm):
             else:
                 cell.value = "-"
             
-        # Fill Columns W-AC (SP Bans 1-7)
+        # 我方 Ban：W-AC 列（23-29）
         for i in range(7):
             col = 23 + i
             cell = ws.cell(row=row_idx, column=col)
             cell.border = border_thin
             
-            if i < len(sp_bans):
-                b = sp_bans[i]
+            if i < len(my_bans):
+                b = my_bans[i]
                 cell.value = b['name']
                 o = b['order']
                 if o in COLOR_YELLOW_BAN_ORDERS: cell.fill = fill_yellow
@@ -646,6 +707,328 @@ def generate_template_3(matches, team_name, db, hm):
     for c in range(5, 30):
         ws.column_dimensions[get_column_letter(c)].width = 12
 
+    # --- Sheet 2: 统计信息 (Stats) ---
+    create_shared_stats_sheet(wb, matches, db, hm)
+
+    output = BytesIO()
+    wb.save(output)
+    return output.getvalue()
+
+def generate_template_4(matches, team_name, db, hm):
+    """
+    Template 4: Review Template (Text Template 2)
+    Customized per user request:
+    - Headers are dynamic player names for My Team
+    - Content: HeroSlang + #Order
+    - Ban: 7 bans. First Ban side is Yellow.
+    """
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "复盘详情"
+    
+    # Styles
+    fill_yellow = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+    fill_green  = PatternFill(start_color="90EE90", end_color="90EE90", fill_type="solid") # Light Green (Team)
+    fill_blue   = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid") # Win
+    fill_red    = PatternFill(start_color="FFC0CB", end_color="FFC0CB", fill_type="solid") # Loss
+    fill_gray_red = PatternFill(start_color="E6B8B7", end_color="E6B8B7", fill_type="solid") # Dire text like
+    fill_gray_green = PatternFill(start_color="D8E4BC", end_color="D8E4BC", fill_type="solid") # Radiant text like
+    
+    font_header = Font(bold=True)
+    alignment_center = Alignment(horizontal='center', vertical='center')
+    border_thin = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+
+    # --- Identify Main Players for Header ---
+    # Reuse logic from analysis tab roughly
+    pos_player_counts = {i: {} for i in range(1, 6)}
+    for m in matches:
+        my_side = 0 if m.is_radiant else 1
+        my_ps = [p for p in m.players if p.team_side == my_side]
+        for p in my_ps:
+            if p.position and 1 <= p.position <= 5 and p.account_id:
+                pos_player_counts[p.position][p.account_id] = pos_player_counts[p.position].get(p.account_id, 0) + 1
+    
+    # Manual DB Lookup
+    target_team = db.query(Team).filter(Team.name == team_name).first()
+    manual_players = {i: [] for i in range(1, 6)}
+    if target_team:
+        team_players = db.query(Player).filter(Player.team_id == target_team.team_id, Player.default_pos != None).all()
+        for p in team_players:
+            if 1 <= p.default_pos <= 5:
+                manual_players[p.default_pos].append(p.account_id)
+    
+    main_players_map = {} # pos -> name
+    matches_desc = sorted(matches, key=lambda m: m.match_time, reverse=True)
+    
+    for pos in range(1, 6):
+        final_acc_id = None
+        candidates = manual_players[pos]
+        if candidates:
+            if len(candidates) == 1:
+                final_acc_id = candidates[0]
+            else:
+                found = False
+                for m in matches_desc:
+                    if found: break
+                    my_side = 0 if m.is_radiant else 1
+                    my_ps = [p for p in m.players if p.team_side == my_side]
+                    for p in my_ps:
+                        if p.account_id in candidates:
+                            final_acc_id = p.account_id
+                            found = True
+                            break
+                if not found: final_acc_id = candidates[0]
+        else:
+            counts = pos_player_counts[pos]
+            if counts:
+                final_acc_id = max(counts, key=counts.get)
+        
+        # Get Name
+        p_name = f"{pos}号位"
+        if final_acc_id:
+            alias = db.query(PlayerAlias).filter(PlayerAlias.account_id == final_acc_id).first()
+            p_info = db.query(Player).filter(Player.account_id == final_acc_id).first()
+            if alias and alias.player: p_name = alias.player.name
+            elif p_info: p_name = p_info.name
+            else: p_name = str(final_acc_id)
+        
+        main_players_map[pos] = p_name
+
+    # --- Headers ---
+    # Row 1: Team Name Title
+    ws.merge_cells('A1:AC1') 
+    ws.cell(row=1, column=1, value=f"{team_name} 数据复盘").alignment = alignment_center
+    ws.cell(row=1, column=1).font = Font(bold=True, size=16)
+
+    # Row 2: Detail Headers
+    # A-D: Base
+    # E-I: My Team (Player Names)
+    # J: Side
+    # K-O: Opponent (Pos 1-5)
+    # P-V: Opp Ban
+    # W-AC: My Ban
+    
+    headers_r2 = ["比赛编号", "时间", "对手", "胜负"]
+    for i in range(1, 6): headers_r2.append(main_players_map.get(i, f"{i}号位"))
+    headers_r2.append("阵营")
+    # K-O: Opponent (Pos 1-5) -> Change to: 1 - PlayerID, 2 - PlayerID ...
+    # We can't know dynamic opponent names easily for ALL matches in one header row.
+    # User requirement: "目标队伍12345 要写 1 - 选手ID"
+    # Wait, "目标队伍" usually means the Analyzed Team (My Team).
+    # My Team headers are already dynamic names (E-I).
+    # Maybe user means Opponent headers should be "1号位 - ID"? No, ID changes every match.
+    # Re-reading: "b. 排列上... 而是按照 |目标队伍PICK 12345|对手PICK12345|对手ban|目标队伍ban|"
+    # AND "并且目标队伍12345 要写 1 - 选手ID"
+    # This refers to the HEADER row for My Team columns?
+    # Yes, currently I put "Name". User wants "1 - Name", "2 - Name"?
+    # "1 - 选手ID". If I have Name, use Name.
+    
+    my_team_headers = []
+    for i in range(1, 6):
+        p_name = main_players_map.get(i, "Unknown")
+        my_team_headers.append(f"{i} - {p_name}")
+
+    # Re-arrange columns as requested:
+    # | My Team Pick (5) | Opp Pick (5) | Opp Ban (7) | My Ban (7) |
+    # Wait, original was: | My | Side | Opp | ...
+    # New request: | My | Opp | Opp Ban | My Ban |
+    # "阵营" column is missing in the new description?
+    # "a. 阵营页面 天辉为绿色粗体，夜魇为红色粗体" -> This implies "阵营" column still exists?
+    # Or maybe "阵营页面" means "阵营" column cell content?
+    # Let's keep "阵营" column, probably between My and Opp or at end?
+    # User list: |目标队伍PICK|对手PICK|对手ban|目标队伍ban|
+    # It skipped "Side", "MatchID", "Time", "Result".
+    # I assume A-D (Base Info) stays.
+    # Where does "Side" go? Maybe remove it and use color coding on Team Name?
+    # But user said "阵营页面 天辉为绿色..." which strongly implies a specific column or page.
+    # Let's keep "Side" column (J) but move it? Or keep it in middle?
+    # The user request "排列上 总体上不是... 而是..." lists the Pick/Ban blocks.
+    # Block 1: My Pick
+    # Block 2: Opp Pick
+    # Block 3: Opp Ban
+    # Block 4: My Ban
+    # Previous was: My Pick | Side | Opp Pick | Opp Ban | My Ban
+    # So "Side" is the main difference. Let's move Side to before My Pick? Or keep it at J?
+    # If I follow strictly: "My | Opp | Opp Ban | My Ban" -> Side is gone.
+    # But "a. 阵营页面..." request implies it exists.
+    # I will put Side column J between My and Opp, as it separates them nicely.
+    
+    # Revised Column Structure:
+    # A-D: Base
+    # E-I: My Team (1-5)
+    # J: Side
+    # K-O: Opponent (1-5)
+    # P-V: Opp Ban (7)
+    # W-AC: My Ban (7)
+    
+    # This matches the user's "My | Opp | Opp Ban | My Ban" block order (ignoring Side/Base for a moment).
+    # Previous implementation was: My | Side | Opp | Opp Ban | My Ban.
+    # Wait, previous was: My | Side | Opp | Opp Ban | My Ban.
+    # User says: |目标队伍PICK|对手PICK|对手ban|目标队伍ban|
+    # It matches my previous implementation except maybe the internal order of bans?
+    # Ah, "1选ban|2选ban" vs "对手ban|目标队伍ban".
+    # Previous code:
+    # headers_r2.append("对手Ban人") ...
+    # headers_r2.append("己方Ban人") ...
+    # It seems I already did "Opp Ban" then "My Ban".
+    # Maybe user thinks I did "1st Ban" "2nd Ban"?
+    # Template 3 was "1选方Ban" "2选方Ban".
+    # Template 4 implementation (current): "对手Ban人" "己方Ban人".
+    # So the order is already correct?
+    # Let's check "b. 排列上...". Maybe they want to remove "Side" column?
+    # I'll stick to: A-D Base, E-I My, J Side, K-O Opp, P-V OppBan, W-AC MyBan.
+    
+    # Update Header content for My Team
+    headers_r2 = ["比赛编号", "时间", "对手", "胜负"]
+    headers_r2.extend(my_team_headers)
+    headers_r2.append("阵营")
+    for i in range(1, 6): headers_r2.append(f"{i}号位")
+    
+    headers_r2.append("对手Ban人")
+    for _ in range(6): headers_r2.append("")
+    
+    headers_r2.append("己方Ban人")
+    for _ in range(6): headers_r2.append("")
+    
+    for i, h in enumerate(headers_r2, start=1):
+        c = ws.cell(row=2, column=i, value=h)
+        c.font = font_header
+        c.alignment = alignment_center
+        c.border = border_thin
+    
+    # Merge Ban Headers
+    ws.merge_cells('P2:V2')
+    ws.merge_cells('W2:AC2')
+    
+    # --- Data Rows ---
+    row_idx = 3
+    for idx, m in enumerate(matches, start=1):
+        # A: Index
+        ws.cell(row=row_idx, column=1, value=m.match_id).border = border_thin
+        
+        # B: Time
+        ws.cell(row=row_idx, column=2, value=m.match_time.strftime('%m.%d')).border = border_thin
+        
+        # C: Opponent
+        ws.cell(row=row_idx, column=3, value=m.opponent_name).border = border_thin
+        
+        # D: Result
+        res_str = "胜" if m.win else "负"
+        res_cell = ws.cell(row=row_idx, column=4, value=res_str)
+        res_cell.fill = fill_green if m.win else fill_red
+        res_cell.border = border_thin
+        res_cell.alignment = alignment_center
+        
+        # Helper for content
+        def get_hero_cell_val(hid, pick_order_map):
+             if not hid: return "-"
+             h_data = hm.get_hero(hid)
+             h_name = h_data.get('slang') or h_data.get('cn_name')
+             # Append Order #N
+             order = pick_order_map.get(hid, "?")
+             return f"{h_name}{order}"
+
+        pick_order_map = {pb.hero_id: pb.order + 1 for pb in m.pick_bans if pb.is_pick}
+        
+        # My Side & Opp Side
+        my_is_radiant = m.is_radiant
+        
+        # E-I: My Team
+        # Find hero for each position 1-5
+        # m.players has position info.
+        my_side_int = 0 if my_is_radiant else 1
+        my_pmap = {}
+        for p in m.players:
+            if p.team_side == my_side_int and p.position and 1 <= p.position <= 5:
+                my_pmap[p.position] = p.hero_id
+                
+        for i in range(1, 6):
+            hid = my_pmap.get(i)
+            val = get_hero_cell_val(hid, pick_order_map)
+            ws.cell(row=row_idx, column=4+i, value=val).border = border_thin
+            
+        # J: Side
+        # Requirement: "天辉为绿色粗体，夜魇为红色粗体"
+        side_str = "天辉" if my_is_radiant else "夜魇"
+        side_cell = ws.cell(row=row_idx, column=10, value=side_str)
+        if my_is_radiant:
+             side_cell.font = Font(color="008000", bold=True) # Green
+        else:
+             side_cell.font = Font(color="FF0000", bold=True) # Red
+        side_cell.border = border_thin
+        side_cell.alignment = alignment_center
+        
+        # K-O: Opponent
+        opp_side_int = 1 if my_is_radiant else 0
+        opp_pmap = {}
+        for p in m.players:
+             if p.team_side == opp_side_int and p.position and 1 <= p.position <= 5:
+                opp_pmap[p.position] = p.hero_id
+        
+        for i in range(1, 6):
+            hid = opp_pmap.get(i)
+            val = get_hero_cell_val(hid, pick_order_map)
+            ws.cell(row=row_idx, column=10+i, value=val).border = border_thin
+
+        # --- Bans ---
+        i_am_first_ban = m.first_pick 
+        opp_is_first_ban = not i_am_first_ban
+        
+        # Collect bans by team
+        my_bans = []
+        opp_bans = []
+        
+        sorted_bans = sorted([pb for pb in m.pick_bans if not pb.is_pick], key=lambda x: x.order)
+        
+        for b in sorted_bans:
+            # Check team side
+            is_my_ban = (b.team_side == my_side_int)
+            h_data = hm.get_hero(b.hero_id)
+            h_name = h_data.get('slang') or h_data.get('cn_name')
+            val = f"{h_name}{b.order + 1}"
+            
+            if is_my_ban: my_bans.append(val)
+            else: opp_bans.append(val)
+            
+        # Fill P-V: Opponent Bans
+        for i in range(7):
+            col = 16 + i
+            val = opp_bans[i] if i < len(opp_bans) else "-"
+            cell = ws.cell(row=row_idx, column=col, value=val)
+            cell.border = border_thin
+            if opp_is_first_ban: cell.fill = fill_yellow
+            
+        # Fill W-AC: My Bans
+        for i in range(7):
+            col = 23 + i
+            val = my_bans[i] if i < len(my_bans) else "-"
+            cell = ws.cell(row=row_idx, column=col, value=val)
+            cell.border = border_thin
+            if i_am_first_ban: cell.fill = fill_yellow
+            
+        row_idx += 1
+
+    # --- Auto Fit Column Width (Approximation) ---
+    # Loop through all columns
+    for col in ws.columns:
+        max_length = 0
+        column = col[0].column_letter # Get the column name
+        
+        # Sample first 20 rows to save time if large
+        for cell in col[:20]:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except:
+                pass
+        
+        adjusted_width = (max_length + 2) * 1.5
+        if adjusted_width > 50: adjusted_width = 50 # Cap
+        ws.column_dimensions[column].width = adjusted_width
+
+    # --- Sheet 2: Stats ---
+    create_shared_stats_sheet(wb, matches, db, hm, team_name=team_name)
+    
     output = BytesIO()
     wb.save(output)
     return output.getvalue()
@@ -722,7 +1105,15 @@ def show():
     # Template Selection
     export_template = st.sidebar.selectbox(
         "选择导出模版",
-        options=["模版 1: 详细战绩与BP (标准)", "模版 2: 预留模版 (空)", "模版 3: 纯文字战报 (开发中)"]
+        options=["默认模版", "图片模板", "文字模板", "文字模板2"]
+    )
+
+    # Export Limit
+    export_limit = st.sidebar.number_input(
+        "导出条目数量 (最近 N 场)",
+        min_value=1,
+        max_value=len(matches),
+        value=len(matches)
     )
     
     if st.sidebar.button("生成 Excel 报告"):
@@ -730,12 +1121,18 @@ def show():
             # Ensure filtering context is passed/used implicitly by passing 'matches' which is already filtered.
             excel_data = None
             
-            if "模版 1" in export_template:
-                excel_data = generate_detailed_excel_export(matches, selected_team, db, hm)
-            elif "模版 2" in export_template:
-                excel_data = generate_template_2(matches, selected_team, db, hm)
-            elif "模版 3" in export_template:
-                excel_data = generate_template_3(matches, selected_team, db, hm)
+            # Slice matches for export only
+            matches_to_export = matches[:export_limit]
+
+            if "默认模版" in export_template:
+                excel_data = generate_detailed_excel_export(matches_to_export, selected_team, db, hm)
+            elif "图片模板" in export_template:
+                excel_data = generate_template_2(matches_to_export, selected_team, db, hm)
+            elif "文字模板2" in export_template:
+                excel_data = generate_template_4(matches_to_export, selected_team, db, hm)
+            elif "文字模板" in export_template:
+                # Keep this last as it matches partially
+                excel_data = generate_template_3(matches_to_export, selected_team, db, hm)
             
             if excel_data:
                 st.sidebar.download_button(
@@ -925,19 +1322,59 @@ def show():
         filter_context = st.checkbox("仅分析当前筛选范围内的比赛", value=True)
         
         # Identify Main Players from CURRENT context first
-        recent_7 = matches[:7] 
+        # Logic Update: Use Manual DB Assignment First
+        
+        # 1. Pre-calculate auto-detected stats (fallback)
         pos_player_counts = {i: {} for i in range(1, 6)} 
-        for m in recent_7:
+        # Use full matches for detection if context filter is off? 
+        # User said "Use recent matches" for conflict resolution.
+        # But 'main_players' logic should probably align with the excel export one.
+        # Let's use the 'matches' list provided to this view (which is already filtered by time/league).
+        
+        for m in matches:
             my_side = 0 if m.is_radiant else 1
             my_ps = [p for p in m.players if p.team_side == my_side]
             for p in my_ps:
                 if p.position and 1 <= p.position <= 5 and p.account_id:
                     pos_player_counts[p.position][p.account_id] = pos_player_counts[p.position].get(p.account_id, 0) + 1
         
-        main_players = {} 
-        for pos, counts in pos_player_counts.items():
-            if counts:
-                main_players[pos] = max(counts, key=counts.get)
+        # 2. Manual DB Lookup
+        target_team = db.query(Team).filter(Team.name == selected_team).first()
+        manual_players = {i: [] for i in range(1, 6)}
+        
+        if target_team:
+            team_players = db.query(Player).filter(Player.team_id == target_team.team_id, Player.default_pos != None).all()
+            for p in team_players:
+                if 1 <= p.default_pos <= 5:
+                    manual_players[p.default_pos].append(p.account_id)
+        
+        main_players = {}
+        matches_desc = sorted(matches, key=lambda m: m.match_time, reverse=True)
+        
+        for pos in range(1, 6):
+            candidates = manual_players[pos]
+            if candidates:
+                if len(candidates) == 1:
+                    main_players[pos] = candidates[0]
+                else:
+                    # Conflict: most recent in current matches
+                    found = False
+                    for m in matches_desc:
+                        if found: break
+                        my_side = 0 if m.is_radiant else 1
+                        my_ps = [p for p in m.players if p.team_side == my_side]
+                        for p in my_ps:
+                            if p.account_id in candidates:
+                                main_players[pos] = p.account_id
+                                found = True
+                                break
+                    if not found:
+                        main_players[pos] = candidates[0]
+            else:
+                # Fallback
+                counts = pos_player_counts[pos]
+                if counts:
+                    main_players[pos] = max(counts, key=counts.get)
         
         pos_tabs = st.tabs([f"{i}号位" for i in range(1, 6)])
         

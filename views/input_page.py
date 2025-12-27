@@ -36,7 +36,8 @@ def show():
                 
                 if selected_team_label:
                     target_team_id = team_options[selected_team_label]
-                    limit = st.number_input("获取最近比赛场数", min_value=1, max_value=50, value=5)
+                    # 单次调用 OpenDota 的最大抓取场数，后续保存阶段再做分页
+                    limit = st.number_input("获取最近比赛场数 (单次抓取上限 100)", min_value=1, max_value=100, value=20)
                     
                     if st.button("预览最近比赛"):
                         with st.spinner("正在获取比赛列表..."):
@@ -148,49 +149,66 @@ def show():
                 if save and not exists:
                     matches_to_save.append(m)
             
-            if st.button(f"保存选中的 {len(matches_to_save)} 场比赛"):
-                progress = st.progress(0)
-                success_count = 0
-                
-                for i, m_summary in enumerate(matches_to_save):
-                    try:
-                        mid = m_summary['match_id']
-                        detail_data = client.fetch_match_details(mid)
-                        
-                        # Auto-save Teams
-                        for side in ['radiant_team_id', 'dire_team_id']:
-                            tid = detail_data.get(side)
-                            if tid:
-                                t = db.query(Team).filter(Team.team_id == tid).first()
-                                if not t:
-                                    t_info = client.fetch_team_details(tid)
-                                    if t_info:
-                                        db.add(Team(team_id=tid, name=t_info.get('name'), tag=t_info.get('tag'), logo_url=t_info.get('logo_url')))
-                                        db.commit()
+            if matches_to_save:
+                # 分页保存：每页最多 100 场，避免一次性写入过多导致卡顿
+                page_size = 100
+                total = len(matches_to_save)
+                total_pages = (total + page_size - 1) // page_size
 
-                        # DUAL PERSPECTIVE SAVE
-                        if fetch_type == 'team':
-                            tid = st.session_state.get('target_team_id')
-                            processor.save_match_to_db(db, detail_data, target_team_id=tid)
-                            
-                            # Also save opponent perspective (Rule #0)
-                            opp_tid = m_summary.get('opposing_team_id')
-                            if opp_tid:
-                                processor.save_match_to_db(db, detail_data, target_team_id=opp_tid)
-                                
-                        else:
-                            processor.save_dual_perspective(db, detail_data)
-                            
-                        success_count += 1
-                        
-                    except Exception as e:
-                        st.error(f"比赛 {mid} 保存失败: {e}")
+                current_page = st.number_input(
+                    "保存分页 (每次最多写入 100 场)",
+                    min_value=1,
+                    max_value=total_pages,
+                    value=1,
+                    step=1,
+                    key="save_page_index"
+                )
+
+                start_idx = (current_page - 1) * page_size
+                end_idx = min(start_idx + page_size, total)
+                page_slice = matches_to_save[start_idx:end_idx]
+
+                if st.button(f"保存当前页比赛 ({start_idx+1}-{end_idx} / 共 {total} 场)"):
+                    progress = st.progress(0)
+                    success_count = 0
                     
-                    progress.progress((i + 1) / len(matches_to_save))
-                
-                st.success(f"操作完成！成功: {success_count}/{len(matches_to_save)}")
-                del st.session_state['preview_matches']
-                st.rerun()
+                    for i, m_summary in enumerate(page_slice):
+                        try:
+                            mid = m_summary['match_id']
+                            detail_data = client.fetch_match_details(mid)
+                            
+                            # Auto-save Teams
+                            for side in ['radiant_team_id', 'dire_team_id']:
+                                tid = detail_data.get(side)
+                                if tid:
+                                    t = db.query(Team).filter(Team.team_id == tid).first()
+                                    if not t:
+                                        t_info = client.fetch_team_details(tid)
+                                        if t_info:
+                                            db.add(Team(team_id=tid, name=t_info.get('name'), tag=t_info.get('tag'), logo_url=t_info.get('logo_url')))
+                                            db.commit()
+                        
+                            # DUAL PERSPECTIVE SAVE
+                            if fetch_type == 'team':
+                                tid = st.session_state.get('target_team_id')
+                                processor.save_match_to_db(db, detail_data, target_team_id=tid)
+                                
+                                # Also save opponent perspective (Rule #0)
+                                opp_tid = m_summary.get('opposing_team_id')
+                                if opp_tid:
+                                    processor.save_match_to_db(db, detail_data, target_team_id=opp_tid)
+                                    
+                            else:
+                                processor.save_dual_perspective(db, detail_data)
+                                
+                            success_count += 1
+                            
+                        except Exception as e:
+                            st.error(f"比赛 {mid} 保存失败: {e}")
+                        
+                        progress.progress((i + 1) / len(page_slice))
+                    
+                    st.success(f"本页操作完成！成功: {success_count}/{len(page_slice)} 场 (当前页 {start_idx+1}-{end_idx} / 总 {total})")
 
     # --- Tab 2: 单场抓取 ---
     with tab2:

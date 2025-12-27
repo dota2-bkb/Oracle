@@ -26,6 +26,8 @@ class OpenDotaClient:
 
     def fetch_pro_matches(self, limit: int = 100) -> List[Dict[str, Any]]:
         """Fetch list of pro matches."""
+        # /proMatches usually returns a mixed bag of tiers, but mostly Professional/Premium.
+        # It does NOT support tier filtering in the request.
         return self._get("/proMatches", params={"limit": limit})
 
     def fetch_team_matches(self, team_id: int, limit: int = 20) -> List[Dict[str, Any]]:

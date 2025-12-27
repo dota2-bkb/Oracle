@@ -7,23 +7,32 @@ venv/
 
 # Streamlit
 .streamlit/secrets.toml
+# keep config.py if it's not containing secrets, otherwise ignore it. 
+# Based on file list, config.py exists, usually safe unless it has keys.
+# secrets.toml.example is safe to commit.
 
 # Database
+*.db
+*.sqlite3
 dota2_analyst.db
+dota2_analyst.db-journal
 
-# Environment
+# PyInstaller / Build Artifacts (Exe builds)
+build/
+dist/
+*.spec
+
+# Environment variables
 .env
 
-# IDE
+# IDE Settings
 .vscode/
 .idea/
+.cursor/
 
-# OS
+# OS Files
 .DS_Store
 Thumbs.db
 
-# Data (Optional: If you want to keep data local-only)
-# data/heroes_system.json
-# data/heroes_custom.json
-# data/patches.json
-
+# Logs
+*.log
